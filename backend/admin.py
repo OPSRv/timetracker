@@ -1,13 +1,19 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.utils.safestring import mark_safe
 from .models import CustomUser, Project, Task, TimeLog
 
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    inlines = []
-    model = CustomUser
-    list_display = ['username', 'position', 'email', 'birth_date', 'user_picture', 'is_staff']
+    list_display = ['get_image', 'username', 'position', 'is_staff']
+    list_display_links = ('username', 'get_image', 'position', 'is_staff')
+    readonly_fields = ('get_image',)
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src="{obj.user_picture.url}" width="64" height="64">')
+
+    get_image.short_description = 'user_picture'
 
     # Add user
     add_fieldsets = (

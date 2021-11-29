@@ -43,27 +43,29 @@ class Task(models.Model):
     date_start = models.DateTimeField(blank=False, auto_now=False, auto_now_add=False, verbose_name="Date start")
     date_end = models.DateTimeField(blank=False, auto_now=False, auto_now_add=False, verbose_name="Date end")
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
-    FEATURE = 'F'
-    BUG = 'B'
+    FEATURE = 'feature'
+    BUG = 'bug'
     TASK_TYPE = [
         (FEATURE, 'feature'),
         (BUG, 'bug'),
     ]
-    task_type = models.CharField(choices=TASK_TYPE, default=FEATURE, max_length=1, db_index=True)
-    NORMAL = 'N'
-    HIGH = 'H'
-    URGENT = 'U'
+    task_type = models.CharField(choices=TASK_TYPE, default=FEATURE, max_length=7, db_index=True)
+    NORMAL = 'normal'
+    HIGH = 'high'
+    URGENT = 'urgent'
     TASK_PRIORITY = [
         (NORMAL, 'normal'),
         (HIGH, 'high'),
         (URGENT, 'urgent'),
     ]
-    task_priority = models.CharField(choices=TASK_PRIORITY, default=NORMAL, max_length=1)
+    task_priority = models.CharField(choices=TASK_PRIORITY, default=NORMAL, max_length=6)
     estimated_time = models.PositiveSmallIntegerField(default=0, verbose_name='Estimated hours')
     comments = JSONField()
     performer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='CustomUser')
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='Project')
+
+
 
     class Meta:
         verbose_name = 'Task'
