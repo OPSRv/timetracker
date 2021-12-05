@@ -7,6 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('id', 'username', 'position', 'email', 'birth_date', 'user_picture',)
+        lookup_field = 'username'
 
 
 # class ArticleParagraphsSerializerDetail(serializers.ModelSerializer):

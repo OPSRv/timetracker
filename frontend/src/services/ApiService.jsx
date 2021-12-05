@@ -1,20 +1,22 @@
 import http from "./http-common";
 
 class ApiService {
+  getAll(url) {
+    return http.get(`${url}`);
+  }
+  getAllProject() {
+    return http.get("/project");
+  }
+  get(id) {
+    return http.get(`${id}`);
+  }
+
   createAccount(data) {
     return http.post("/auth/register/", data);
   }
 
   authorization(data) {
     return http.post("/auth/login/", data);
-  }
-
-  getAll() {
-    return http.get("/api/contacts");
-  }
-
-  get(id) {
-    return http.get(`/api/contacts/${id}`);
   }
 
   create(data) {

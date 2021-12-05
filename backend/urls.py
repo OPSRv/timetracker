@@ -9,5 +9,5 @@ router.register(r'task', views.TaskViewSet)
 router.register(r'timelog', views.TimeLogViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
 ]

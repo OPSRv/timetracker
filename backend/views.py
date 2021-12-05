@@ -6,6 +6,7 @@ from .serializers import ProjectSerializer, UserSerializer, TaskSerializer, Time
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+    lookup_field = 'username'
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()

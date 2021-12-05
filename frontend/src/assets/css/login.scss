@@ -1,0 +1,74 @@
+.container-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+.form-box {
+  width: 380px;
+  height: 400px;
+  background-color: #2d2d2d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0.5;
+  border-radius: 2%;
+  box-shadow: 0 0 1rem 0 rgba(10, 147, 175, 0.675);
+}
+.login-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+
+  input {
+    padding: 5px;
+    margin: 1em;
+    background: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid rgb(10, 147, 175);
+    color: rgb(137, 137, 137);
+  }
+
+  input[type="date"] {
+    width: 166px;
+    height: 18px;
+    color: rgb(137, 137, 137);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    border: 0;
+    border-bottom: 3px solid rgb(10, 147, 175);
+    -webkit-text-fill-color: rgb(137, 137, 137);
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+    background: -webkit-linear-gradient(
+      top,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(0, 174, 255, 0.04) 50%,
+      rgba(255, 255, 255, 0) 51%,
+      rgba(0, 174, 255, 0.03) 100%
+    );
+  }
+  .btn-save {
+    outline: none;
+    border: 2px solid rgb(10, 147, 175);
+    border-radius: 5px;
+    padding: 10px;
+    width: 166px;
+    background: transparent;
+    margin-top: 10px;
+    color: rgb(137, 137, 137);
+    &:hover {
+      background-color: rgb(10, 147, 175);
+      color: white;
+    }
+  }
+}

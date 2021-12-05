@@ -1,0 +1,42 @@
+header {
+  position: fixed;
+  margin-left: 300px;
+  width: calc(100% - 300px);
+  box-shadow: 0 0 1rem 0 rgba(41, 39, 39, 0.375);
+  background: inherit;
+  overflow: hidden;
+}
+header:before {
+  content: "";
+  position: absolute;
+  background: inherit;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px rgba(62, 62, 62, 0.128);
+  filter: blur(10px);
+  margin: -20px;
+}
+
+.header-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  height: 3em;
+  .active {
+    background: transparent;
+    color: rgb(10, 147, 175);
+  }
+  a {
+    color: rgb(137, 137, 137);
+    &:hover {
+      color: rgb(10, 147, 175);
+    }
+    &:nth-child(n) {
+      padding: 10px;
+    }
+  }
+}
