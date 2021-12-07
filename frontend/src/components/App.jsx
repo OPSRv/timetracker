@@ -12,7 +12,6 @@ import { UserId } from "./UserId";
 import { Task } from "./Task";
 import { Login } from "./Login";
 import { Signup } from "./Signup";
-
 const App = () => {
   return (
     <>
@@ -25,6 +24,7 @@ const App = () => {
           <Route path="task" element={<Task />} />
           <Route path="timelog" element={<TimeLog />} />
           <Route path="login" element={<Login />} />
+
           <Route path="signup" element={<Signup />} />
           <Route path="*" element={<NoMatch />} />
         </Route>

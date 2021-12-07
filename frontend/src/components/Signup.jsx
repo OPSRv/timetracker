@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ApiService from "../services/ApiService";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -6,26 +7,34 @@ const Signup = () => {
   const [birth_date, setBirthdate] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConf, setPasswordConf] = useState("");
 
-  const toogle = (event) => {
-    setUsername(username);
-    setPosition(position);
-    setBirthdate(birth_date);
-    setEmail(email);
-    setPassword(password);
-  };
+  // const toogle = (event) => {
+  //   setUsername(username);
+  //   setPosition(position);
+  //   setBirthdate(birth_date);
+  //   setEmail(email);
+  //   setPassword(password);
+  // };
 
   const onSendDataUs = (event) => {
     event.preventDefault();
-    let createUser = {
+    let createAccount = {
       username: username,
       position: position,
       email: email,
       birth_date: birth_date,
       password: password,
+      passwordConf: passwordConf,
     };
-    console.log(createUser);
-    // singIn(newAuth);
+    console.log(createAccount);
+    ApiService.createAccount(createAccount)
+      .then((res) => {
+        console.log(res, "res - createAccount");
+      })
+      .catch((err) => {
+        console.log(err, "CreateAccount ERR ApiService");
+      });
   };
 
   return (
@@ -70,6 +79,14 @@ const Signup = () => {
             autoComplete="current-password"
             required
           />
+          <input
+            onChange={(event) => setPasswordConf(event.target.value)}
+            type="password"
+            placeholder="password"
+            name="password"
+            autoComplete="current-password"
+            required
+          />
           <button className="btn-save" type="submit">
             Sign up
           </button>
@@ -78,11 +95,5 @@ const Signup = () => {
     </div>
   );
 };
-
-// "username": "",
-// "position": "",
-// "email": "",
-// "birth_date": null,
-// "user_picture": null
 
 export { Signup };

@@ -1,34 +1,29 @@
 from rest_framework import serializers
-
+from django.conf import settings
 from .models import CustomUser, Project, Task, TimeLog
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'position', 'email', 'birth_date', 'user_picture',)
-        lookup_field = 'username'
-
-
-# class ArticleParagraphsSerializerDetail(serializers.ModelSerializer):
-#     class Meta:
-#         model = ArticleDetail
-#         exclude = ('id',)
-
-
-
+        fields = ('id', 'username', 'position', 'email',
+                  'birth_date', 'user_picture')
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Project
-        fields = ('id', 'name', 'description', 'slug')
+        fields = ('id', 'name', 'description', 'performers')
+        lookup_field = 'name'
+        slug_field = 'name'
 
 
 class TaskSerializer(serializers.ModelSerializer):
     performer = UserSerializer(required=False)
-    author = UserSerializer(required=False)
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
     project = ProjectSerializer(required=False)
+
     class Meta:
         model = Task
         fields = ('id', 'theme', 'description', 'date_start', 'date_end', 'update', 'task_type', 'task_priority',
@@ -36,7 +31,8 @@ class TaskSerializer(serializers.ModelSerializer):
 
 
 class TimeLogSerializer(serializers.ModelSerializer):
-    task = TaskSerializer(required=False)
+    task = TaskSerializer()
+
     class Meta:
         model = TimeLog
         fields = ('id', 'spent_time', 'comment', 'task')

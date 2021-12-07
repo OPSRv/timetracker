@@ -12,11 +12,14 @@ class ApiService {
   }
 
   createAccount(data) {
-    return http.post("/auth/register/", data);
+    return http.post("auth/users/", data);
   }
 
   authorization(data) {
-    return http.post("/auth/login/", data);
+    return http.post("auth-token/token/login", data);
+  }
+  userInfo() {
+    return http.get("auth/users/me/");
   }
 
   create(data) {

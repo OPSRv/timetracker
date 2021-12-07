@@ -8,7 +8,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
 
   const getUsers = () => {
-    ApiService.getAll("/users")
+    ApiService.getAll("/auth/users")
       .then((res) => {
         setUsers(res.data);
       })
