@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ApiService from "../services/ApiService";
-
+import ApiService from "../Services/ApiService";
+import { useNavigate } from "react-router";
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [position, setPosition] = useState("");
@@ -8,7 +8,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
-
+  const navigate = useNavigate();
   // const toogle = (event) => {
   //   setUsername(username);
   //   setPosition(position);
@@ -35,6 +35,7 @@ const Signup = () => {
       .catch((err) => {
         console.log(err, "CreateAccount ERR ApiService");
       });
+    navigate("/login");
   };
 
   return (
@@ -82,7 +83,7 @@ const Signup = () => {
           <input
             onChange={(event) => setPasswordConf(event.target.value)}
             type="password"
-            placeholder="password"
+            placeholder="Confirm password"
             name="password"
             autoComplete="current-password"
             required

@@ -2,7 +2,7 @@ header {
   position: fixed;
   margin-left: 300px;
   width: calc(100% - 300px);
-  box-shadow: 0 0 1rem 0 rgba(41, 39, 39, 0.375);
+  box-shadow: 1em 0 1rem 0 rgba(10, 147, 175, 0.13);
   background: inherit;
   overflow: hidden;
 }
@@ -39,4 +39,9 @@ header:before {
       padding: 10px;
     }
   }
+}
+.header-userpicture {
+  width: 32px;
+  padding: 10px;
+  border-radius: 100%;
 }

@@ -1,66 +1,65 @@
-import React, { useState } from "react";
-import "../assets/css/login.scss";
-import ApiService from "../services/ApiService";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { getAuth, getCurrentUsers } from "../Actions/TimeTrackerActions";
 
-const Login = () => {
+import "../assets/css/login.scss";
+const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
+  const dispatch = useDispatch();
 
-  const onSendDataUs = (event) => {
+  const navigate = useNavigate();
+
+  const auth_token = useSelector(
+    (state) => state.timetracker.Authorization.auth_token
+  );
+
+  const handleLogin = (event) => {
     event.preventDefault();
     let newAuth = {
       username: username,
       password: password,
     };
-    console.log(newAuth);
-    ApiService.authorization(newAuth)
-      .then((res) => {
-        console.log(res.data.auth_token);
-        setToken(res.data.auth_token);
-        localStorage.setItem("token", `Token ${res.data.auth_token}`);
-        localStorage.setItem("isAuthenticated", true);
-      })
-      .catch((err) => {
-        console.log(err, "newAuth ERR ApiService");
-      });
-    console.log(
-      localStorage.getItem("token"),
-      'localStorage.getItem("token")LOGIN JSX,'
-    );
-    ApiService.userInfo()
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err, "userInfo ERR ApiService");
-      });
+    dispatch(getAuth(newAuth));
+    navigate("/");
   };
 
+  const getUsersIdDispatch = useCallback(() => {
+    dispatch(getCurrentUsers(auth_token));
+  }, []);
+
+  useEffect(() => {
+    getUsersIdDispatch();
+    dispatch(getCurrentUsers(auth_token));
+  }, []);
+
   return (
-    <div className="container-login">
-      <div className="form-box">
-        <form className="login-container" onSubmit={onSendDataUs}>
-          <input
-            onChange={(event) => setUsername(event.target.value)}
-            type="text"
-            placeholder="Name"
-            autoComplete="username"
-            name="username"
-            required
-          />
-          <input
-            onChange={(event) => setPassword(event.target.value)}
-            type="password"
-            placeholder="Password"
-            autoComplete="current-password"
-          />
-          <button className="btn-save" type="submit">
-            Log in
-          </button>
-        </form>
+    <>
+      <div className="container-login">
+        <div className="form-box">
+          <form className="login-container" onSubmit={handleLogin}>
+            <input
+              onChange={(event) => setUsername(event.target.value)}
+              type="text"
+              placeholder="Name"
+              autoComplete="username"
+              name="username"
+              required
+            />
+            <input
+              onChange={(event) => setPassword(event.target.value)}
+              type="password"
+              placeholder="Password"
+              autoComplete="current-password"
+            />
+            <button className="btn-save" type="submit">
+              Log in
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

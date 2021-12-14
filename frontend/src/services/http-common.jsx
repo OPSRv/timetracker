@@ -1,25 +1,15 @@
 import axios from "axios";
 
-// const isAuthenticated = localStorage.getItem("isAuthenticated");
-const token = localStorage.getItem("token");
-// console.log(token, "token http");
+const TOKEN = localStorage.getItem("auth_token");
 
-const asyncLocalStorage = {
-  setItem: async function (key, value) {
-    await null;
-    return localStorage.setItem(key, value);
-  },
-  getItem: async function (key) {
-    await null;
-    return localStorage.getItem(key);
-  },
-};
+const BASE_URL_API = "http://127.0.0.1:8000/api/";
 
-console.log(token);
-export default axios.create({
-  baseURL: "http://127.0.0.1:8000/api/",
+export const http = axios.create({
+  baseURL: BASE_URL_API,
   headers: {
     Accept: "application/json",
-    Authorization: token,
+    Authorization: TOKEN,
   },
 });
+
+export const PATHS = {};

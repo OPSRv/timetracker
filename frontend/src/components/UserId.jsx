@@ -1,34 +1,36 @@
-import { useState, useEffect } from "react";
-import ApiService from "../services/ApiService";
+import { useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { getUserId } from "../Actions/TimeTrackerActions";
+import { Loading } from "./Loading";
 
 const UserId = () => {
-  const [userId, setUserId] = useState([]);
+  const dispatch = useDispatch();
+  const url = useLocation();
 
-  let url = useLocation();
+  const userId = useSelector((state) => state.timetracker.UserId);
 
   useEffect(() => {
-    const getUserId = () => {
-      ApiService.get(url.pathname)
-        .then((res) => {
-          setUserId(res.data);
-        })
-        .catch((err) => {
-          console.log(err, "USER_ID ERR ApiService");
-        });
-    };
-    getUserId();
-  }, [url]);
+    dispatch(getUserId(url.pathname));
+  }, []);
 
   return (
-    <div>
-      <img src={userId.user_picture} alt="userpicture" />
-      <p>{userId.username}</p>
-      <p>{userId.position}</p>
-      <p>{userId.email}</p>
-      <p>{userId.birth_date}</p>
-      <Link to="/">Back</Link>
-    </div>
+    <>
+      <div>
+        <img
+          className="user-picture"
+          src={userId.user_picture}
+          alt="userpicture"
+        />
+        <p>{userId.username}</p>
+        <p>{userId.position}</p>
+        <p>{userId.email}</p>
+        <p>{userId.birth_date}</p>
+        <Link to="/">
+          <button className="btn-blue">Back</button>
+        </Link>
+      </div>
+    </>
   );
 };
 export { UserId };

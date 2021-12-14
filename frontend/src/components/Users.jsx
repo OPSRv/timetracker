@@ -1,36 +1,36 @@
-import ApiService from "../services/ApiService";
-import { useState, useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 import "../assets/css/users.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../Actions/TimeTrackerActions";
+
+import { Loading } from "./Loading";
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
+  const dispatch = useDispatch();
 
-  const getUsers = () => {
-    ApiService.getAll("/auth/users")
-      .then((res) => {
-        setUsers(res.data);
-      })
-      .catch((err) => {
-        console.log(err, "USER_LIST ERR ApiService");
-      });
-  };
+  const userList = useSelector((state) => state.timetracker.UserList);
+
+  const loading = useSelector((state) => state.loading.isLoading);
 
   useEffect(() => {
-    getUsers();
+    dispatch(getUsers());
   }, []);
 
-  const listMenu = users.map((item) => (
+  const listMenu = userList.map((item) => (
     <Link to={`users/${item.username}`} key={item.id}>
       <div className="user-card">
-        <img src={item.user_picture} alt="userpicture" />
-        <p>{item.username}</p>
-        <p>{item.position}</p>
+        <img
+          className="user-picture"
+          src={item.user_picture}
+          alt="userpicture"
+        />
+        <div>{item.username}</div>
+        <div>{item.position}</div>
       </div>
     </Link>
   ));
-
-  return <div className="users ">{listMenu}</div>;
+  return <div className="users "> {listMenu} </div>;
 };
 export { Users };

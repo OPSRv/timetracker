@@ -1,6 +1,8 @@
+import { useSelector } from "react-redux";
 import { Outlet, NavLink } from "react-router-dom";
 import "../assets/css/sidebar.scss";
 import { GiTimeBomb } from "react-icons/gi";
+
 import {
   RiDashboardFill,
   RiProjectorLine,
@@ -8,6 +10,7 @@ import {
   RiTodoFill,
 } from "react-icons/ri";
 import { Header } from "./Header";
+import { Loading } from "./Loading";
 
 const SideBar = () => {
   return (
@@ -25,13 +28,13 @@ const SideBar = () => {
             </NavLink>
           </div>
           <div className="sidebar__item">
-            <NavLink to="/project">
+            <NavLink to="/projects">
               <RiProjectorLine />
-              <span className="sidebar-nav-text">Project</span>
+              <span className="sidebar-nav-text">Projects</span>
             </NavLink>
           </div>
           <div className="sidebar__item">
-            <NavLink to="/task">
+            <NavLink to="/tasks">
               <RiTodoFill />
               <span className="sidebar-nav-text">Task</span>
             </NavLink>

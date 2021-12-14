@@ -1,11 +1,8 @@
-import http from "./http-common";
+import { http } from "./http-common";
 
 class ApiService {
   getAll(url) {
     return http.get(`${url}`);
-  }
-  getAllProject() {
-    return http.get("/project");
   }
   get(id) {
     return http.get(`${id}`);
@@ -22,8 +19,8 @@ class ApiService {
     return http.get("auth/users/me/");
   }
 
-  create(data) {
-    return http.post("/api/contacts", data);
+  project_create(data) {
+    return http.post("project-create/", data);
   }
 
   update(id, data) {
