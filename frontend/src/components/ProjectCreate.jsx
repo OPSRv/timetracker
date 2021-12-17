@@ -16,12 +16,8 @@ const ProjectCreate = () => {
 
   useEffect(() => {
     dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
 
-  const handleChange = (event) => {
-    event.preventDefault();
-    console.log(event);
-  };
   if (isloading) {
     return <Loading />;
   }
@@ -32,9 +28,11 @@ const ProjectCreate = () => {
     event.preventDefault();
 
     const getPerformersId = [];
+
     const getPerformers = checkedItems.map((obj) => {
       getPerformersId.push(obj.id);
     });
+
     let project_data = {
       name: name,
       description: description,
@@ -48,7 +46,7 @@ const ProjectCreate = () => {
 
   const newCheckboxes = [...userList];
   return (
-    <div>
+    <div className="project-create">
       <form className="login-container" onSubmit={onSendDataUs}>
         <input
           onChange={(event) => setName(event.target.value)}
@@ -65,35 +63,41 @@ const ProjectCreate = () => {
           name="description"
           required
         />
-        {userList.length !== 0 ? (
-          userList.map((checkbox, index) => (
-            <div className="user-checkbox" key={checkbox.id}>
-              <img
-                className="user-picture-small"
-                src={checkbox.user_picture}
-                alt="userpicture"
-              />
-              <input
-                type={"checkbox"}
-                onChange={(e) => {
-                  newCheckboxes[index].checked = e.target.checked;
-                  setPerformers(newCheckboxes);
-                }}
-                checked={checkbox.checked}
-              />
-              <p>{checkbox.username}</p>
-            </div>
-          ))
-        ) : (
-          <Loading />
-        )}
-
+        <div className="user-checkbox-wrapper">
+          {userList.length !== 0 ? (
+            userList.map((checkbox, index) => (
+              <div className="user-checkbox" key={checkbox.id}>
+                <input
+                  type={"checkbox"}
+                  onChange={(e) => {
+                    newCheckboxes[index].checked = e.target.checked;
+                    setPerformers(newCheckboxes);
+                  }}
+                  checked={checkbox.checked}
+                  id={checkbox.id}
+                  class="styled-checkbox"
+                />
+                <label for={checkbox.id}>
+                  {" "}
+                  <img
+                    className="user-picture-small"
+                    src={checkbox.user_picture}
+                    alt="userpicture"
+                  />
+                  <p>{checkbox.username}</p>
+                </label>
+              </div>
+            ))
+          ) : (
+            <Loading />
+          )}
+        </div>
         <div className="user-checkbox-added">
           <h3>Add users in project:</h3>
           {checkedItems.isLoading !== 0 ? (
             checkedItems.map((checkbox, index) => (
               <div key={checkbox.id}>
-                <p>{checkbox.username}</p>
+                <p className="add-user">{checkbox.username}</p>
               </div>
             ))
           ) : (

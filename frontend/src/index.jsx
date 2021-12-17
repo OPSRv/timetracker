@@ -8,7 +8,6 @@ import "./assets/css/index.scss";
 // import reportWebVitals from './reportWebVitals';
 
 import store from "./store";
-import history from "./history";
 
 ReactDOM.render(
   <React.StrictMode>

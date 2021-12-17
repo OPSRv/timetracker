@@ -11,26 +11,49 @@
     color: rgb(138, 138, 138);
   }
   .project-performers {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
     h3 {
       color: rgb(0, 247, 255);
     }
+    .project-item {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-self: center;
+    }
+  }
+}
+.projects-container {
+  .users {
+    display: flex;
+    flex-flow: row wrap;
+  }
+}
+.project-create {
+  input[text] {
+    width: 300px;
   }
 }
 .user-performers {
   margin: 0px 20px 20px 20px;
-  height: 80px;
-  min-width: 300px;
+  height: 50px;
+  width: 300px;
+  padding: 20px;
+  font-size: 18px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: center;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  justify-content: flex-start;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 3px 14px;
   border-radius: 15px;
   background: #2d2d2d;
   color: rgb(137, 137, 137);
-
+  display: flex;
+  flex-flow: row nowrap;
   img {
-    width: 64px;
+    width: 32px;
   }
   p {
     margin: 10px;
@@ -72,19 +95,101 @@
 }
 .user-checkbox {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   justify-content: flex-start;
+  width: 200px;
+
   .user-picture-small {
     width: 48px;
     height: 48px;
     border-radius: 100%;
+    padding: 5px;
+  }
+  p {
+    padding: 1px;
+    color: white;
   }
 }
 .user-checkbox-added {
   display: flex;
   flex-flow: row wrap;
-  p {
-    padding: 5px;
+  align-items: center;
+
+  .add-user {
+    padding: 10px;
     color: white;
+    font-weight: bold;
+    font-size: 24px;
+  }
+}
+.btn-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+.user-checkbox-wrapper {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.styled-checkbox {
+  opacity: 0; // hide it
+  p {
+    padding-left: 10px;
+  }
+  & + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  & + label:before {
+    content: "";
+    margin-right: 20px;
+    display: inline-block;
+    vertical-align: text-top;
+    width: 20px;
+    height: 20px;
+    background: white;
+  }
+
+  &:hover + label:before {
+    background: rgb(10, 147, 175);
+  }
+
+  &:focus + label:before {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  }
+
+  &:checked + label:before {
+    background: rgb(10, 147, 175);
+  }
+
+  &:disabled + label {
+    color: #b8b8b8;
+    cursor: auto;
+  }
+
+  &:disabled + label:before {
+    box-shadow: none;
+    background: #ddd;
+  }
+
+  &:checked + label:after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    background: white;
+    width: 2px;
+    height: 2px;
+    box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white,
+      4px -6px 0 white, 4px -8px 0 white;
+    transform: rotate(45deg);
   }
 }

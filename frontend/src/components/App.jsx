@@ -1,5 +1,5 @@
-import * as React from "react";
 import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 //components
 import { SideBar } from "./Sidebar";
 import { Dashboard } from "./Dashboard";
@@ -14,8 +14,19 @@ import { Signup } from "./Signup";
 import { ProjectId } from "./ProjectId";
 import { ProjectCreate } from "./ProjectCreate";
 import { TaskCreate } from "./TaskCreate";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const App = () => {
+  const { isAuthenticated } = useSelector((state) => state.timetracker);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, []);
+
   return (
     <>
       <Routes>

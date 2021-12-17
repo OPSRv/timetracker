@@ -22,7 +22,12 @@ class ApiService {
   project_create(data) {
     return http.post("project-create/", data);
   }
-
+  task_create(data) {
+    return http.post("task-create/", data);
+  }
+  task_add_comment(theme, data) {
+    return http.patch(`task-create/${theme}/`, data);
+  }
   update(id, data) {
     return http.put(`/api/contacts/${id}`, data);
   }

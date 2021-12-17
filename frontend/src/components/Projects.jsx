@@ -19,38 +19,36 @@ const Projects = () => {
 
   useEffect(() => {
     getProjectsCall();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
       {!!isloading ? (
         <Loading />
       ) : (
-        <div>
-          <div>
-            <div className="users">
-              {projectsList && projectsList.length !== 0 ? (
-                projectsList.map((item) => {
-                  return (
-                    <Link to={`${item.name}`} key={item.id}>
-                      <div className="user-card">
-                        <GiUnstableProjectile />
-                        <p className="project-name">{item.name}</p>
-                      </div>
-                    </Link>
-                  );
-                })
-              ) : (
-                <Loading />
-              )}
-              <Link to="/project-create">
-                <button className="btn-blue">
-                  <FaPlusSquare />
-                  New project
-                </button>
-              </Link>
-            </div>
+        <div className="projects-container">
+          <div className="users">
+            {projectsList && projectsList.length !== 0 ? (
+              projectsList.map((item) => {
+                return (
+                  <Link to={`${item.name}`} key={item.id}>
+                    <div className="user-card">
+                      <GiUnstableProjectile />
+                      <p className="project-name">{item.name}</p>
+                    </div>
+                  </Link>
+                );
+              })
+            ) : (
+              <Loading />
+            )}
           </div>
+          <Link to="/project-create">
+            <button className="btn-blue">
+              <FaPlusSquare />
+              New project
+            </button>
+          </Link>
         </div>
       )}
     </>

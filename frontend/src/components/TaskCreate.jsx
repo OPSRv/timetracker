@@ -1,42 +1,39 @@
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createProject, getUsers } from "../Actions/TimeTrackerActions";
+import { createTask } from "../Actions/TimeTrackerActions";
 import { Loading } from "./Loading";
 
-// "id": 10,
-// "theme": "React Router",
-// "description": "asdasd",
-// "date_start": "2021-12-14T17:57:00+02:00",
-// "date_end": "2021-12-14T17:57:00+02:00",
-// "update": "2021-12-14T18:43:07.000536+02:00",
-// "task_type": "feature",
-// "task_priority": "urgent",
-// "estimated_time": 2,
-// "comments": [],
-// "performer": 41,
-// "author": 41,
-// "project": 60
-
 const TaskCreate = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { name } = useParams();
-  const { id } = useSelector((state) => state.timetracker.ProjectId);
+  const { id, performers } = useSelector(
+    (state) => state.timetracker.ProjectId
+  );
+  const currentUser = useSelector((state) => state.timetracker.CurrentUser.id);
+  const userList = useSelector((state) => state.timetracker.UserList);
 
   const [theme, setTheme] = useState("");
   const [description, setDescription] = useState("");
   const [date_start, setDatestart] = useState("");
   const [date_end, setDateEnd] = useState("");
-  const [task_type, setTaskType] = useState("normal");
-  const [task_priority, setTaskPriority] = useState("");
-  const [estimated_time, setEstimatedTime] = useState("");
-  const [performer, setPerformer] = useState("");
-  const [author, setAuthor] = useState("");
-  const [project, setProject] = useState("");
+  const [task_type, setTaskType] = useState("feature");
+  const [task_priority, setTaskPriority] = useState("normal");
+  const [estimated_time, setEstimatedTime] = useState("1");
+  const [performer, setPerformer] = useState(currentUser);
+
+  const isloading = useSelector((state) => state.loading.isLoading);
+
+  // useEffect(() => {
+  //   if ((!id && !currentUser) || (!userList && !isloading)) {
+  //     navigate(-1);
+  //   }
+  // }, [dispatch]);
 
   const onSendDataUs = (event) => {
     event.preventDefault();
-    let createAccount = {
+    let taskData = {
       theme: theme,
       description: description,
       date_start: date_start,
@@ -44,26 +41,18 @@ const TaskCreate = () => {
       task_type: task_type,
       task_priority: task_priority,
       estimated_time: estimated_time,
-      performer: 41,
-      author: 41,
+      performer: performer,
+      author: currentUser,
       project: id,
     };
-    console.log(createAccount);
-    // console.log(createAccount);
-    // ApiService.createAccount(createAccount)
-    //   .then((res) => {
-    //     console.log(res, "res - createAccount");
-    //   })
-    //   .catch((err) => {
-    //     console.log(err, "CreateAccount ERR ApiService");
-    //   });
-    // navigate("/login");
+    dispatch(createTask(taskData));
+    navigate(-1);
   };
 
   return (
-    <div className="container-login">
-      <h1>{name}</h1>
+    <div className="container-login select">
       <div className="">
+        <h1>Task in project: {name}</h1>
         <form className="login-container" onSubmit={onSendDataUs}>
           <input
             onChange={(event) => setTheme(event.target.value)}
@@ -94,39 +83,54 @@ const TaskCreate = () => {
             name="date_end"
             required
           />
-          <input
-            type="text"
-            placeholder="task type"
-            name="task_type"
-            required
-          />
-
-          <select
-            required
-            onChange={(event) => setTaskType(event.target.value)}
-          >
-            <option value="normal">feature</option>
-            <option value="high">bug</option>
-          </select>
-
-          <select
-            required
-            onChange={(event) => setTaskPriority(event.target.value)}
-          >
-            <option value="normal">normal</option>
-            <option value="high">high</option>
-            <option value="urgent">urgent</option>
-          </select>
-
+          <div class="select">
+            <select
+              id="standard-select"
+              required
+              onChange={(event) => setTaskType(event.target.value)}
+            >
+              <option value="feature">feature</option>
+              <option value="bug">bug</option>
+            </select>
+          </div>
+          <div class="select">
+            <select
+              id="standard-select"
+              required
+              defaultValue="normal"
+              onChange={(event) => setTaskPriority(event.target.value)}
+            >
+              <option value="normal">normal</option>
+              <option value="high">high</option>
+              <option value="urgent">urgent</option>
+            </select>
+          </div>
+          <div class="select">
+            <select
+              id="standard-select"
+              required
+              defaultValue={currentUser}
+              onChange={(event) => setPerformer(event.target.value)}
+            >
+              {performers.map((user) => {
+                return (
+                  <option value={user.id} key={user.id} defaultValue={user.id}>
+                    {user.username}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
           <input
             onChange={(event) => setEstimatedTime(event.target.value)}
             type="number"
-            placeholder="estimated time"
+            defaultValue={1}
             name="estimated_time"
+            min="0"
             required
           />
           <button className="btn-save" type="submit">
-            Sign up
+            Create task
           </button>
         </form>
       </div>

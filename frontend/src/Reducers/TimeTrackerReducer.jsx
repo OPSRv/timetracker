@@ -7,28 +7,35 @@ import {
   LOAD_PROJECT_ID,
   CREATE_PROJECT,
   LOAD_TASK,
+  CREATE_TASK,
+  ADD_COMMENT_TASK,
 } from "./Types";
+
+const token = localStorage.getItem("auth_token");
+const isAuth = localStorage.getItem("isAuthenticated");
 
 const initialState = {
   Authorization: {
-    auth_token: localStorage.getItem("auth_token"),
+    auth_token: token ? token : "",
     username: "",
     user_id: "",
   },
+  isAuthenticated: isAuth ? isAuth : false,
   UserList: [],
   UserId: [],
-  SelectedUser: [],
-  CurrentUser: [],
+  CurrentUser: {},
   ProjectList: [],
   ProjectId: [],
-  CurrentTask: [],
+  CurrentTask: {},
 };
 
 const TimeTrackerReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTHORIZATION_REQUEST:
+      console.log(action.payload);
       return {
         ...state,
+        isAuthenticated: true,
         Authorization: action.payload,
       };
     case LOAD_USER_LIST:
@@ -66,6 +73,16 @@ const TimeTrackerReducer = (state = initialState, action) => {
       return {
         ...state,
         ProjectList: action.payload,
+      };
+
+    case CREATE_TASK:
+      return {
+        ...state,
+      };
+    case ADD_COMMENT_TASK:
+      return {
+        ...state,
+        CurrentTask: action.payload,
       };
 
     default:

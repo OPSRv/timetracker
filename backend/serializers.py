@@ -13,7 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 class TaskSerializerDetail(serializers.ModelSerializer):
     performer = UserSerializer(required=False)
-    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Task

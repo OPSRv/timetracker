@@ -1,22 +1,21 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { getUserId } from "../Actions/TimeTrackerActions";
-import { Loading } from "./Loading";
 
 const UserId = () => {
   const dispatch = useDispatch();
   const url = useLocation();
 
   const userId = useSelector((state) => state.timetracker.UserId);
-
+  console.log(userId);
   useEffect(() => {
     dispatch(getUserId(url.pathname));
-  }, []);
+  }, [dispatch, url.pathname]);
 
   return (
     <>
-      <div>
+      <div className="userId gd">
         <img
           className="user-picture"
           src={userId.user_picture}

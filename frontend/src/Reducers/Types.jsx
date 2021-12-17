@@ -16,7 +16,9 @@ export const LOAD_TASK = "LOAD_TASK";
 
 export const CREATE_PROJECT = "CREATE_PROJECT";
 
-export const ADD_TASK = "ADD_TASK";
+export const CREATE_TASK = "CREATE_TASK";
+
+export const ADD_COMMENT_TASK = "ADD_COMMENT_TASK";
 
 export const EDIT_TASK = "EDIT_TASK";
 

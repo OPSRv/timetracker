@@ -3,6 +3,40 @@
   align-items: center;
   justify-content: center;
   height: 80vh;
+  font-size: 1.25rem;
+  select {
+    // A reset of styles, including removing the default dropdown arrow
+    appearance: none;
+    // Additional resets for further consistency
+    background-color: transparent;
+    border: none;
+    padding: 0 1em 0.5em 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    outline: none;
+    color: #8a8a8a;
+    width: 310px;
+    border-bottom: 1px solid rgb(10, 147, 175);
+    margin: 1em;
+  }
+  select::-ms-expand {
+    display: none;
+  }
+  .select {
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+    line-height: 1.1;
+  }
+  .select::after {
+    content: "";
+    width: 0.8em;
+    height: 0.5em;
+    background-color: saturation($color: #000000);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  }
 }
 .form-box {
   width: 380px;
@@ -21,19 +55,20 @@
   align-items: center;
 
   input {
+    width: 300px;
     padding: 5px;
     margin: 1em;
     background: transparent;
     border: none;
     outline: none;
-    border-bottom: 2px solid rgb(10, 147, 175);
+    border-bottom: 1px solid rgb(10, 147, 175);
     color: rgb(137, 137, 137);
   }
 
   input[type="date"] {
     width: 166px;
     height: 18px;
-    color: rgb(137, 137, 137);
+    color: rgb(0, 87, 109);
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
   input:-webkit-autofill,

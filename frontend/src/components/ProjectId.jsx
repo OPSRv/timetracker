@@ -1,26 +1,29 @@
-import React, { useState } from "react";
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { GiUnstableProjectile, GiBoltBomb } from "react-icons/gi";
-import { getProjectId } from "../Actions/TimeTrackerActions";
+import { getCurrentUsers, getProjectId } from "../Actions/TimeTrackerActions";
 import { Loading } from "./Loading";
 
 const ProjectId = () => {
   const dispatch = useDispatch();
   const projectId = useSelector((state) => state.timetracker.ProjectId);
-  console.log(projectId);
   const url = useLocation();
 
+  const auth_token = useSelector(
+    (state) => state.timetracker.Authorization.auth_token
+  );
+
+  const getUsersIdDispatch = useCallback(() => {
+    dispatch(getCurrentUsers(auth_token));
+  }, []);
+
   useEffect(() => {
+    getUsersIdDispatch();
     dispatch(getProjectId(url.pathname));
   }, []);
 
   const isloading = useSelector((state) => state.loading.isLoading);
-
-  if (isloading) {
-    return <Loading />;
-  }
 
   return (
     <>
@@ -33,8 +36,8 @@ const ProjectId = () => {
           </h1>
           <p className="project-description">{projectId.description}</p>
           <div className="project-performers">
-            <div className="">
-              <h3>Performers:</h3>
+            <div className="project-item">
+              <h3>Performers:</h3>{" "}
               {projectId && projectId.length !== 0 ? (
                 projectId.performers.map((item) => {
                   return (
@@ -56,7 +59,7 @@ const ProjectId = () => {
                 <Loading />
               )}
             </div>
-            <div className="">
+            <div className="project-item">
               <h3>Task</h3>
               {projectId.length !== 0 ? (
                 projectId.tasks.map((item) => {
@@ -70,16 +73,18 @@ const ProjectId = () => {
                   );
                 })
               ) : (
-                <Loading />
+                <span></span>
               )}
             </div>
           </div>
-          <Link to="task-create">
-            <button className="btn-blue">Create task</button>
-          </Link>
-          <Link to="/projects">
-            <button className="btn-blue">Back</button>
-          </Link>
+          <div className="btn-container">
+            <Link to="/projects">
+              <button className="btn-blue">Back</button>
+            </Link>
+            <Link to="task-create">
+              <button className="btn-blue">Create task</button>
+            </Link>
+          </div>
         </div>
       )}
     </>
