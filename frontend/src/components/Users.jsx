@@ -5,7 +5,6 @@ import "../assets/css/users.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../Actions/TimeTrackerActions";
 import { useNavigate } from "react-router-dom";
-import { Loading } from "./Loading";
 import { NoAuth } from "./NoAuth";
 
 const Users = () => {
@@ -20,7 +19,7 @@ const Users = () => {
     if (!isAuthenticated) {
       usersAuth ? dispatch(getUsers()) : navigate("/login");
     }
-  }, [dispatch]);
+  }, [dispatch, usersAuth, isAuthenticated, navigate]);
 
   return (
     <>

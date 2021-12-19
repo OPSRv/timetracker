@@ -1,10 +1,9 @@
-import { useEffect, useCallback, useState } from "react";
+import { useState } from "react";
 import { VscDiffAdded } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { addCommnetTask, getCurrentUsers } from "../Actions/TimeTrackerActions";
+import { addCommnetTask } from "../Actions/TimeTrackerActions";
 import { dateNow } from "../Services/Date";
-import { Loading } from "./Loading";
 
 const Comments = () => {
   const dispatch = useDispatch();
@@ -16,20 +15,9 @@ const Comments = () => {
     (state) => state.timetracker.Authorization.auth_token
   );
 
-  const getUsersIdDispatch = useCallback(() => {
-    dispatch(getCurrentUsers(auth_token));
-  }, []);
-
   const { id, username, user_picture } = useSelector(
     (state) => state.timetracker.CurrentUser
   );
-
-  useEffect(() => {
-    if (comments && comments.length !== 0) {
-      console.log(comments.length);
-    }
-    getUsersIdDispatch();
-  }, [comments]);
 
   const date = new Date();
 

@@ -8,6 +8,7 @@ import {
   LOAD_CURRENT_USER,
   LOAD_TASK,
   CREATE_TASK,
+  EDIT_TASK,
   ADD_COMMENT_TASK,
   START_LOADING,
   SUCSSES,
@@ -41,17 +42,13 @@ export const getAuth = (auth) => async (dispatch) => {
 export const getCurrentUsers = (token) => async (dispatch) => {
   const res = await ApiService.getAll("/auth/users/me")
     .then((data) => {
-      dispatch({ type: START_LOADING });
       localStorage.setItem("userCurrent", data.data.username);
       return data.data;
     })
     .catch((error) => {
-      dispatch({ type: ERROR });
       console.log(error.message, "CURRENT_USER ERR ApiService");
     })
-    .finally(() => {
-      dispatch({ type: SUCSSES });
-    });
+    .finally(() => {});
   return store.dispatch({
     type: LOAD_CURRENT_USER,
     payload: res,
@@ -93,9 +90,9 @@ export const getUserId = (url) => async (dispatch) => {
 };
 
 export const getProjects = () => async (dispatch) => {
+  dispatch({ type: START_LOADING });
   const res = await ApiService.getAll("/projects")
     .then((data) => {
-      dispatch({ type: START_LOADING });
       return data.data;
     })
     .catch((error) => {
@@ -113,7 +110,6 @@ export const getProjects = () => async (dispatch) => {
 };
 
 export const createProject = (project_data) => async (dispatch) => {
-  console.log(project_data, "project_data");
   const res = await ApiService.project_create(project_data)
     .then((data) => {
       dispatch({ type: START_LOADING });
@@ -126,7 +122,6 @@ export const createProject = (project_data) => async (dispatch) => {
     .finally(() => {
       dispatch({ type: SUCSSES });
     });
-
   return store.dispatch({
     type: CREATE_PROJECT,
     payload: res,
@@ -134,13 +129,13 @@ export const createProject = (project_data) => async (dispatch) => {
 };
 
 export const getProjectId = (url) => async (dispatch) => {
+  dispatch({ type: START_LOADING });
   const res = await ApiService.get(url)
     .then((data) => {
-      dispatch({ type: START_LOADING });
       return data.data;
     })
     .catch((error) => {
-      dispatch({ type: ERROR });
+      // dispatch({ type: ERROR });
       console.log(error.message, "LOAD_PROJECT_ID ERR ApiService");
     })
     .finally(() => {
@@ -172,10 +167,9 @@ export const getTask = (path) => async (dispatch) => {
 };
 
 export const createTask = (task_data) => async (dispatch) => {
+  dispatch({ type: START_LOADING });
   const res = await ApiService.task_create(task_data)
     .then((data) => {
-      console.log(data, "ACTION createTask data");
-      dispatch({ type: START_LOADING });
       return data.data;
     })
     .catch((error) => {
@@ -188,6 +182,21 @@ export const createTask = (task_data) => async (dispatch) => {
 
   return store.dispatch({
     type: CREATE_TASK,
+    payload: res,
+  });
+};
+
+export const editTask = (theme, data) => async (dispatch) => {
+  const res = await ApiService.task_edit(theme, data)
+    .then((data) => {
+      return data.data;
+    })
+    .catch((error) => {
+      console.log(error.message, "EDIT_TASK ApiService");
+    });
+
+  return store.dispatch({
+    type: EDIT_TASK,
     payload: res,
   });
 };

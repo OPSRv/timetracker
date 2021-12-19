@@ -20,7 +20,8 @@ class CustomUser(AbstractUser):
     user_picture = models.ImageField(verbose_name="Завантаження фото", upload_to=upload_to_user_picture,
                                      default='user_picture/default_user_picture.png')
 
-    REQUIRED_FIELDS = ['id', 'user_picture']
+    REQUIRED_FIELDS = ['id', 'user_picture', 'email',
+                       'password', 'position', 'birth_date']
 
     def __str__(self):
         return self.username

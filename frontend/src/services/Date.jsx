@@ -76,6 +76,9 @@ export const dateNow = (date) => {
     case 9:
       fHour = "09";
       break;
+    default:
+      fHour = Hour;
+      break;
   }
 
   switch (Month) {
@@ -117,10 +120,8 @@ export const dateNow = (date) => {
       break;
   }
 
-  console.log(fMinutes, "fMinutes");
-
   const dateFormat =
-    Day + "/" + fMonth + "/" + Year + " " + fHour + ":" + fMinutes;
+    Day + "." + fMonth + "." + Year + " " + fHour + ":" + fMinutes;
 
   return dateFormat;
 };

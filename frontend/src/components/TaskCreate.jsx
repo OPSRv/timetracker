@@ -1,8 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createTask } from "../Actions/TimeTrackerActions";
-import { Loading } from "./Loading";
 
 const TaskCreate = () => {
   const dispatch = useDispatch();
@@ -12,8 +11,6 @@ const TaskCreate = () => {
     (state) => state.timetracker.ProjectId
   );
   const currentUser = useSelector((state) => state.timetracker.CurrentUser.id);
-  const userList = useSelector((state) => state.timetracker.UserList);
-
   const [theme, setTheme] = useState("");
   const [description, setDescription] = useState("");
   const [date_start, setDatestart] = useState("");
@@ -22,14 +19,6 @@ const TaskCreate = () => {
   const [task_priority, setTaskPriority] = useState("normal");
   const [estimated_time, setEstimatedTime] = useState("1");
   const [performer, setPerformer] = useState(currentUser);
-
-  const isloading = useSelector((state) => state.loading.isLoading);
-
-  // useEffect(() => {
-  //   if ((!id && !currentUser) || (!userList && !isloading)) {
-  //     navigate(-1);
-  //   }
-  // }, [dispatch]);
 
   const onSendDataUs = (event) => {
     event.preventDefault();
@@ -83,7 +72,7 @@ const TaskCreate = () => {
             name="date_end"
             required
           />
-          <div class="select">
+          <div className="select">
             <select
               id="standard-select"
               required
@@ -93,7 +82,7 @@ const TaskCreate = () => {
               <option value="bug">bug</option>
             </select>
           </div>
-          <div class="select">
+          <div className="select">
             <select
               id="standard-select"
               required
@@ -105,7 +94,7 @@ const TaskCreate = () => {
               <option value="urgent">urgent</option>
             </select>
           </div>
-          <div class="select">
+          <div className="select">
             <select
               id="standard-select"
               required

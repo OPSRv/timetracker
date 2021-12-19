@@ -23,7 +23,7 @@ const Projects = () => {
 
   return (
     <>
-      {!!isloading ? (
+      {isloading ? (
         <Loading />
       ) : (
         <div className="projects-container">
@@ -40,7 +40,7 @@ const Projects = () => {
                 );
               })
             ) : (
-              <Loading />
+              <span></span>
             )}
           </div>
           <Link to="/project-create">

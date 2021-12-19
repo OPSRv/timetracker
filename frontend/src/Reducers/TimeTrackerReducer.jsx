@@ -9,6 +9,7 @@ import {
   LOAD_TASK,
   CREATE_TASK,
   ADD_COMMENT_TASK,
+  EDIT_TASK,
 } from "./Types";
 
 const token = localStorage.getItem("auth_token");
@@ -25,7 +26,10 @@ const initialState = {
   UserId: [],
   CurrentUser: {},
   ProjectList: [],
-  ProjectId: [],
+  ProjectId: {
+    tasks: [],
+    performers: [],
+  },
   CurrentTask: {},
 };
 
@@ -54,6 +58,7 @@ const TimeTrackerReducer = (state = initialState, action) => {
         UserId: action.payload,
       };
     case LOAD_PROJECT_ID:
+      console.log("LOAD_PROJECT_ID action.payload", action.payload);
       return {
         ...state,
         ProjectId: action.payload,
@@ -70,16 +75,28 @@ const TimeTrackerReducer = (state = initialState, action) => {
         CurrentTask: action.payload,
       };
     case CREATE_PROJECT:
+      console.log(action.payload);
       return {
         ...state,
-        ProjectList: action.payload,
+        ProjectList: [...state.ProjectList, action.payload],
       };
 
     case CREATE_TASK:
+      console.log("CREATE_TASK", action.payload);
       return {
         ...state,
+        ProjectId: {
+          ...state.ProjectId,
+          tasks: state.ProjectId.tasks.concat(action.payload),
+        },
+      };
+    case EDIT_TASK:
+      return {
+        ...state,
+        CurrentTask: action.payload,
       };
     case ADD_COMMENT_TASK:
+      console.log(action.payload, "action.payload");
       return {
         ...state,
         CurrentTask: action.payload,

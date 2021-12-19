@@ -7,8 +7,7 @@ from .models import CustomUser, Project, Task, TimeLog
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'position', 'email',
-                  'birth_date', 'user_picture')
+        fields = '__all__'
 
 
 class TaskSerializerDetail(serializers.ModelSerializer):

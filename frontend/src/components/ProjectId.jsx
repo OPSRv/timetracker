@@ -2,7 +2,7 @@ import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { GiUnstableProjectile, GiBoltBomb } from "react-icons/gi";
-import { getCurrentUsers, getProjectId } from "../Actions/TimeTrackerActions";
+import { getProjectId } from "../Actions/TimeTrackerActions";
 import { Loading } from "./Loading";
 
 const ProjectId = () => {
@@ -10,21 +10,16 @@ const ProjectId = () => {
   const projectId = useSelector((state) => state.timetracker.ProjectId);
   const url = useLocation();
 
-  const auth_token = useSelector(
-    (state) => state.timetracker.Authorization.auth_token
+  const getProjectIdCall = useCallback(
+    () => dispatch(getProjectId(url.pathname)),
+    [dispatch]
   );
 
-  const getUsersIdDispatch = useCallback(() => {
-    dispatch(getCurrentUsers(auth_token));
-  }, []);
-
   useEffect(() => {
-    getUsersIdDispatch();
-    dispatch(getProjectId(url.pathname));
-  }, []);
+    getProjectIdCall();
+  }, [dispatch]);
 
   const isloading = useSelector((state) => state.loading.isLoading);
-
   return (
     <>
       {isloading ? (
@@ -38,7 +33,7 @@ const ProjectId = () => {
           <div className="project-performers">
             <div className="project-item">
               <h3>Performers:</h3>{" "}
-              {projectId && projectId.length !== 0 ? (
+              {projectId && projectId.performers.length !== 0 ? (
                 projectId.performers.map((item) => {
                   return (
                     <Link to={`/users/${item.username}`} key={item.id}>
@@ -56,12 +51,12 @@ const ProjectId = () => {
                   );
                 })
               ) : (
-                <Loading />
+                <span></span>
               )}
             </div>
             <div className="project-item">
               <h3>Task</h3>
-              {projectId.length !== 0 ? (
+              {projectId && projectId.tasks.length !== 0 ? (
                 projectId.tasks.map((item) => {
                   return (
                     <Link to={`/task/${item.theme}`} key={item.id}>

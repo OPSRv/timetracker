@@ -54,6 +54,7 @@ const ProjectCreate = () => {
           placeholder="Name project"
           autoComplete="name"
           name="name"
+          defaultValue={"PROJECT"}
           required
         />
         <input
@@ -61,6 +62,7 @@ const ProjectCreate = () => {
           type="text"
           placeholder="Description"
           name="description"
+          defaultValue={"Description PROJECT"}
           required
         />
         <div className="user-checkbox-wrapper">
@@ -75,9 +77,9 @@ const ProjectCreate = () => {
                   }}
                   checked={checkbox.checked}
                   id={checkbox.id}
-                  class="styled-checkbox"
+                  className="styled-checkbox"
                 />
-                <label for={checkbox.id}>
+                <label htmlFor={checkbox.id}>
                   {" "}
                   <img
                     className="user-picture-small"

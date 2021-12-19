@@ -9,9 +9,10 @@ const UserId = () => {
 
   const userId = useSelector((state) => state.timetracker.UserId);
   console.log(userId);
+
   useEffect(() => {
     dispatch(getUserId(url.pathname));
-  }, [dispatch, url.pathname]);
+  }, [dispatch]);
 
   return (
     <>

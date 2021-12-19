@@ -25,6 +25,11 @@ class ApiService {
   task_create(data) {
     return http.post("task-create/", data);
   }
+
+  task_edit(theme, data) {
+    return http.patch(`task-create/${theme}/`, data);
+  }
+
   task_add_comment(theme, data) {
     return http.patch(`task-create/${theme}/`, data);
   }
