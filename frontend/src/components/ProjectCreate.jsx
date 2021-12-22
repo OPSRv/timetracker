@@ -6,9 +6,11 @@ import { Loading } from "./Loading";
 
 const ProjectCreate = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const userList = useSelector((state) => state.timetracker.UserList);
   const isloading = useSelector((state) => state.loading.isLoading);
-  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [performers, setPerformers] = useState(

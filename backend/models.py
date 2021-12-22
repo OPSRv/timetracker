@@ -17,14 +17,14 @@ class CustomUser(AbstractUser):
     """ Custom  of user model """
     position = models.CharField(max_length=255, verbose_name="Position")
     birth_date = models.DateField(default=date.today)
-    user_picture = models.ImageField(verbose_name="Завантаження фото", upload_to=upload_to_user_picture,
+    user_picture = models.ImageField(verbose_name="upload foto", upload_to=upload_to_user_picture,
                                      default='user_picture/default_user_picture.png')
 
     REQUIRED_FIELDS = ['id', 'user_picture', 'email',
                        'password', 'position', 'birth_date']
 
     def __str__(self):
-        return self.username
+        return str(self.username)
 
 
 class Project(models.Model):
@@ -34,13 +34,10 @@ class Project(models.Model):
     description = models.TextField(blank=False, verbose_name="Description")
     slug = models.SlugField(unique=True, blank=True)
     performers = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, verbose_name="Project performers")
+        settings.AUTH_USER_MODEL, verbose_name="performers", related_name='performers')
 
     def __str__(self):
-        return "%s (%s)" % (
-            self.name,
-            ", ".join(performer.username for performer in self.performers.all()),
-        )
+        return str(self.name)
 
     def save(self, *args, **kwargs):
         self.slug = django_slugify(self.name)
@@ -85,12 +82,12 @@ class Task(models.Model):
     performer = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+')
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='CustomUser')
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+')
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name='tasks')
 
     def __str__(self):
-        return self.theme
+        return str(self.theme)
 
     class Meta:
         verbose_name = 'Task'
@@ -101,12 +98,12 @@ class Task(models.Model):
 class TimeLog(models.Model):
     """ TimeLog of model """
     spent_time = models.PositiveSmallIntegerField(verbose_name='Spent time')
-    comment = models.CharField(max_length=255, verbose_name='Comment')
+    comment = JSONField(default=list, blank=True)
     task = models.ForeignKey(
-        Task, on_delete=models.CASCADE, related_name='Task')
+        Task, on_delete=models.CASCADE, related_name='timelog')
 
     def __str__(self):
-        return self.comment
+        return str(self.spent_time)
 
     class Meta:
         verbose_name = 'TimeLog'

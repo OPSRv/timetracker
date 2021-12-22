@@ -59,7 +59,7 @@ const TimeLog = () => {
             className="input-comment"
             value={commentText}
             onChange={(event) => setCommentText(event.target.value)}
-            placeholder="comment"
+            placeholder="what's done ?"
             name="comment"
             required
           />
