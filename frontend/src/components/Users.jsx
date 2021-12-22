@@ -11,15 +11,6 @@ const Users = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userList = useSelector((state) => state.timetracker.UserList);
-  const usersAuth = useSelector((state) => state.timetracker.CurrentUser);
-
-  const { isAuthenticated } = useSelector((state) => state.timetracker);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      usersAuth ? dispatch(getUsers()) : navigate("/login");
-    }
-  }, [dispatch, usersAuth, isAuthenticated, navigate]);
 
   return (
     <>
@@ -33,7 +24,7 @@ const Users = () => {
                   src={item.user_picture}
                   alt="userpicture"
                 />
-                <p>{item.username}</p>
+                <p className="users-username-text">{item.username}</p>
                 <span>-</span>
                 <p>{item.position}</p>
               </div>

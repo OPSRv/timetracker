@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { createProject, getUsers } from "../Actions/TimeTrackerActions";
 import { Loading } from "./Loading";
-import { useNavigate } from "react-router";
+
 const ProjectCreate = () => {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.timetracker.UserList);
@@ -39,7 +40,7 @@ const ProjectCreate = () => {
       slug: name,
       performers: getPerformersId,
     };
-
+    console.log(project_data, "project_data comp");
     dispatch(createProject(project_data));
     navigate("/projects");
   };
@@ -54,7 +55,6 @@ const ProjectCreate = () => {
           placeholder="Name project"
           autoComplete="name"
           name="name"
-          defaultValue={"PROJECT"}
           required
         />
         <input
@@ -62,7 +62,6 @@ const ProjectCreate = () => {
           type="text"
           placeholder="Description"
           name="description"
-          defaultValue={"Description PROJECT"}
           required
         />
         <div className="user-checkbox-wrapper">

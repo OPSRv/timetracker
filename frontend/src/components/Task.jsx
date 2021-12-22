@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "./Loading";
 import { dateNow } from "../Services/Date";
 import { Comments } from "./Comments";
-import { TaskCreate } from "./TaskCreate";
+import { TimeLog } from "./TimeLog";
 import "../assets/css/task.scss";
 import { BiEdit, BiArrowBack } from "react-icons/bi";
+import { clean } from "../Services/serviceFunction";
 
 const Task = () => {
   const navigate = useNavigate();
@@ -32,23 +33,10 @@ const Task = () => {
   const [estimated_time, setEstimatedTime] = useState("");
   const [performer, setPerformer] = useState(currentUser);
 
-  function clean(obj) {
-    for (let propName in obj) {
-      if (
-        obj[propName] === null ||
-        obj[propName] === undefined ||
-        obj[propName] === ""
-      ) {
-        delete obj[propName];
-      }
-    }
-    return obj;
-  }
-
   const onSendDataUs = (event) => {
     event.preventDefault();
 
-    let taskData = {
+    let taskEditData = {
       theme: themeTask,
       description: description,
       date_start: date_start,
@@ -60,14 +48,11 @@ const Task = () => {
       author: currentUser,
       project: id,
     };
-    clean(taskData);
+    //function delete null undefined empty
+    clean(taskEditData);
 
-    // console.log(clean(taskData), "clean(taskData)");
-
-    console.log(theme, "- theme");
-    console.log(taskData, "taskData");
-    dispatch(editTask(theme, taskData));
-    // navigate(-1);
+    dispatch(editTask(theme, taskEditData));
+    navigate(-1);
   };
 
   useEffect(() => {
@@ -104,153 +89,161 @@ const Task = () => {
             task && task.length !== 0 ? taskPriorityStyle : ""
           } task-edit-wrapper`}
         >
-          <div className="">
-            <div className="">
-              <div className="task-header">
-                <h1 className={!isReadOnly.readOnly ? "blink" : ""}>Task</h1>
-                <div>
-                  <BiArrowBack onClick={() => navigate(-1)} />
-                  <BiEdit
-                    onClick={() => edit()}
-                    className={!isReadOnly.readOnly ? "svg-edit" : "''"}
-                  />
-                </div>
-              </div>
-              <form className="form-task-edit" onSubmit={onSendDataUs}>
-                <div className="select">
-                  <label for="theme">Theme:</label>
-                  <input
-                    onChange={(event) => setThemeTask(event.target.value)}
-                    className={!isReadOnly.readOnly ? "input-effect" : "''"}
-                    readOnly={isReadOnly.readOnly}
-                    id="theme"
-                    type="text"
-                    defaultValue={task.theme}
-                    name="theme"
-                    required
-                  />
-                </div>
-                <div className="select">
-                  <label for="description">Description:</label>
-                  <textarea
-                    onChange={(event) => setDescription(event.target.value)}
-                    className={!isReadOnly.readOnly ? "input-effect" : "''"}
-                    readOnly={isReadOnly.readOnly}
-                    type="textarea"
-                    id="description"
-                    name="description"
-                    defaultValue={task.description}
-                    required
-                  />
-                </div>
-                <div className="select">
-                  <label for="date_start">Date start:</label>
-
-                  <p className={!isReadOnly.readOnly ? "none" : "date"}>
-                    {dateStart}
-                  </p>
-                  <input
-                    onChange={(event) => setDateStart(event.target.value)}
-                    className={
-                      isReadOnly.readOnly ? "none" : "date, input-effect"
-                    }
-                    readOnly={isReadOnly.readOnly}
-                    id="date_start"
-                    type="datetime-local"
-                    name="date_start"
-                    required
-                  />
-                </div>
-                <div className="select">
-                  <label for="date_end">Date end:</label>
-                  <p className={!isReadOnly.readOnly ? "none" : "date"}>
-                    {dateEnd}
-                  </p>
-                  <input
-                    onChange={(event) => setDateEnd(event.target.value)}
-                    className={
-                      isReadOnly.readOnly ? "none" : "date, input-effect"
-                    }
-                    readOnly={isReadOnly.readOnly}
-                    id="date_end"
-                    type="datetime-local"
-                    name="date_end"
-                    required
-                  />
-                </div>
-                <div className="select">
-                  <label for="standard-select">Task type:</label>
-                  <select
-                    disabled={isReadOnly.readOnly}
-                    id="standard-select"
-                    required
-                    defaultValue={task.task_type}
-                    onChange={(event) => setTaskType(event.target.value)}
-                  >
-                    <option value="feature">feature</option>
-                    <option value="bug">bug</option>
-                  </select>
-                </div>
-                <div className="select">
-                  <label for="standard-select-1">Task priority:</label>
-                  <select
-                    disabled={isReadOnly.readOnly}
-                    id="standard-select-1"
-                    required
-                    defaultValue={task.task_priority}
-                    onChange={(event) => setTaskPriority(event.target.value)}
-                  >
-                    <option value="normal">normal</option>
-                    <option value="high">high</option>
-                    <option value="urgent">urgent</option>
-                  </select>
-                </div>
-                <div className="select">
-                  <label for="standard-select-1">Performer:</label>
-                  <select
-                    disabled={isReadOnly.readOnly}
-                    id="standard-select"
-                    required
-                    onChange={(event) => setPerformer(event.target.value)}
-                  >
-                    {performers.map((user) => {
-                      return (
-                        <option
-                          value={user.id}
-                          key={user.id}
-                          defaultValue={user.id}
-                        >
-                          {user.username}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <div className="select">
-                  <label for="standard-select">Estimated time:</label>
-                  <input
-                    readOnly={isReadOnly.readOnly}
-                    onChange={(event) => setEstimatedTime(event.target.value)}
-                    className={!isReadOnly.readOnly ? "input-effect" : "''"}
-                    type="number"
-                    defaultValue={1}
-                    name="estimated_time"
-                    min="0"
-                    required
-                  />
-                </div>
-                <button
-                  onClick={() => edit()}
-                  className={isReadOnly.readOnly ? "none" : "btn-edit"}
-                  type="submit"
-                >
-                  Save edit
-                </button>
-              </form>
+          <div className="task-header">
+            <h1 className={!isReadOnly.readOnly ? "blink" : ""}>
+              Task{" "}
+              <BiEdit
+                onClick={() => edit()}
+                className={!isReadOnly.readOnly ? "svg-edit" : "''"}
+              />
+            </h1>
+            <div>
+              <BiArrowBack onClick={() => navigate(-1)} />
             </div>
           </div>
-          <div className="comments-wrapper gd">
-            <Comments taskId={task.theme} />
+
+          <div className="task-content-wrapper">
+            <form
+              className="form-task-edit comments-wrapper"
+              onSubmit={onSendDataUs}
+            >
+              <div className="select">
+                <label for="theme">Theme:</label>
+                <input
+                  onChange={(event) => setThemeTask(event.target.value)}
+                  className={!isReadOnly.readOnly ? "input-effect" : "''"}
+                  readOnly={isReadOnly.readOnly}
+                  id="theme"
+                  type="text"
+                  defaultValue={task.theme}
+                  name="theme"
+                  required
+                />
+              </div>
+              <div className="select">
+                <label for="description">Description:</label>
+                <textarea
+                  onChange={(event) => setDescription(event.target.value)}
+                  className={!isReadOnly.readOnly ? "input-effect" : "''"}
+                  readOnly={isReadOnly.readOnly}
+                  type="textarea"
+                  id="description"
+                  name="description"
+                  defaultValue={task.description}
+                  required
+                />
+              </div>
+              <div className="select">
+                <label for="date_start">Date start:</label>
+
+                <p className={!isReadOnly.readOnly ? "none" : "date"}>
+                  {dateStart}
+                </p>
+                <input
+                  onChange={(event) => setDateStart(event.target.value)}
+                  className={
+                    isReadOnly.readOnly ? "none" : "date, input-effect"
+                  }
+                  readOnly={isReadOnly.readOnly}
+                  id="date_start"
+                  type="datetime-local"
+                  name="date_start"
+                  required
+                />
+              </div>
+              <div className="select">
+                <label for="date_end">Date end:</label>
+                <p className={!isReadOnly.readOnly ? "none" : "date"}>
+                  {dateEnd}
+                </p>
+                <input
+                  onChange={(event) => setDateEnd(event.target.value)}
+                  className={
+                    isReadOnly.readOnly ? "none" : "date, input-effect"
+                  }
+                  readOnly={isReadOnly.readOnly}
+                  id="date_end"
+                  type="datetime-local"
+                  name="date_end"
+                  required
+                />
+              </div>
+              <div className="select">
+                <label for="standard-select">Task type:</label>
+                <select
+                  disabled={isReadOnly.readOnly}
+                  id="standard-select"
+                  required
+                  defaultValue={task.task_type}
+                  onChange={(event) => setTaskType(event.target.value)}
+                >
+                  <option value="feature">feature</option>
+                  <option value="bug">bug</option>
+                </select>
+              </div>
+              <div className="select">
+                <label for="standard-select-1">Task priority:</label>
+                <select
+                  disabled={isReadOnly.readOnly}
+                  id="standard-select-1"
+                  required
+                  defaultValue={task.task_priority}
+                  onChange={(event) => setTaskPriority(event.target.value)}
+                >
+                  <option value="normal">normal</option>
+                  <option value="high">high</option>
+                  <option value="urgent">urgent</option>
+                </select>
+              </div>
+              <div className="select">
+                <label for="standard-select-1">Performer:</label>
+                <select
+                  disabled={isReadOnly.readOnly}
+                  id="standard-select"
+                  required
+                  onChange={(event) => setPerformer(event.target.value)}
+                >
+                  {performers.map((user) => {
+                    return (
+                      <option
+                        value={user.id}
+                        key={user.id}
+                        defaultValue={user.id}
+                      >
+                        {user.username}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className="select">
+                <label for="standard-select">Estimated time:</label>
+                <input
+                  readOnly={isReadOnly.readOnly}
+                  onChange={(event) => setEstimatedTime(event.target.value)}
+                  className={!isReadOnly.readOnly ? "input-effect" : "''"}
+                  type="number"
+                  defaultValue={1}
+                  name="estimated_time"
+                  min="0"
+                  required
+                />
+              </div>
+              <button
+                onClick={() => edit()}
+                className={isReadOnly.readOnly ? "none" : "btn-edit"}
+                type="submit"
+              >
+                Save edit
+              </button>
+            </form>
+
+            <div className="comments-wrapper comments">
+              <Comments />
+            </div>
+          </div>
+          <div className="comments-wrapper">
+            <TimeLog />
           </div>
         </div>
       ) : (

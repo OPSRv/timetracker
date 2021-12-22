@@ -1,5 +1,6 @@
 import {
-  AUTHORIZATION_REQUEST,
+  AUTHORIZATION,
+  LOGOUT,
   LOAD_USER_LIST,
   LOAD_USER_ID,
   LOAD_CURRENT_USER,
@@ -10,6 +11,7 @@ import {
   CREATE_TASK,
   ADD_COMMENT_TASK,
   EDIT_TASK,
+  ADD_TIME_LOG,
 } from "./Types";
 
 const token = localStorage.getItem("auth_token");
@@ -23,7 +25,7 @@ const initialState = {
   },
   isAuthenticated: isAuth ? isAuth : false,
   UserList: [],
-  UserId: [],
+  UserId: {},
   CurrentUser: {},
   ProjectList: [],
   ProjectId: {
@@ -35,13 +37,26 @@ const initialState = {
 
 const TimeTrackerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case AUTHORIZATION_REQUEST:
+    case AUTHORIZATION:
       console.log(action.payload);
       return {
         ...state,
         isAuthenticated: true,
         Authorization: action.payload,
       };
+    case LOGOUT:
+      return {
+        ...state,
+        isAuthenticated: false,
+        Authorization: {
+          ...state.Authorization,
+          auth_token: undefined,
+          username: undefined,
+          user_id: undefined,
+        },
+        CurrentUser: {},
+      };
+
     case LOAD_USER_LIST:
       return {
         ...state,
@@ -52,13 +67,18 @@ const TimeTrackerReducer = (state = initialState, action) => {
         ...state,
         ProjectList: action.payload,
       };
+    case CREATE_PROJECT:
+      console.log(action.payload, "CREATE_PROJECT");
+      return {
+        ...state,
+        ProjectList: [...state.ProjectList, action.payload],
+      };
     case LOAD_USER_ID:
       return {
         ...state,
         UserId: action.payload,
       };
     case LOAD_PROJECT_ID:
-      console.log("LOAD_PROJECT_ID action.payload", action.payload);
       return {
         ...state,
         ProjectId: action.payload,
@@ -73,12 +93,6 @@ const TimeTrackerReducer = (state = initialState, action) => {
       return {
         ...state,
         CurrentTask: action.payload,
-      };
-    case CREATE_PROJECT:
-      console.log(action.payload);
-      return {
-        ...state,
-        ProjectList: [...state.ProjectList, action.payload],
       };
 
     case CREATE_TASK:
@@ -99,9 +113,20 @@ const TimeTrackerReducer = (state = initialState, action) => {
       console.log(action.payload, "action.payload");
       return {
         ...state,
-        CurrentTask: action.payload,
+        CurrentTask: {
+          ...state.CurrentTask,
+          comments: state.CurrentTask.comments.concat(action.payload),
+        },
       };
-
+    case ADD_TIME_LOG:
+      console.log(action.payload, "action.payload");
+      return {
+        ...state,
+        CurrentTask: {
+          ...state.CurrentTask,
+          timelog: state.CurrentTask.timelog.concat(action.payload),
+        },
+      };
     default:
       return state;
   }

@@ -26,6 +26,10 @@ header:before {
   justify-content: flex-end;
   align-items: center;
   height: 3em;
+  padding: 5px;
+  p {
+    padding-right: 30px;
+  }
   .active {
     background: transparent;
     color: rgb(10, 147, 175);
@@ -38,6 +42,28 @@ header:before {
     &:nth-child(n) {
       padding: 10px;
     }
+  }
+  svg {
+    padding: 5px;
+    border-radius: 15px;
+    color: rgb(59, 59, 59);
+    border: 2px solid rgb(59, 59, 59);
+    cursor: pointer;
+    &:hover {
+      border: 2px solid rgb(10, 147, 175);
+      color: rgb(10, 147, 175);
+      box-shadow: 2px 2px 14px rgba(black, 0.3);
+    }
+    &:active {
+      transform: scale(0.95, 0.95);
+    }
+  }
+  img {
+    padding: 0;
+    border: 3px solid rgba(10, 147, 175, 0.61);
+  }
+  .header-text-name {
+    padding-left: 10px;
   }
 }
 .header-userpicture {

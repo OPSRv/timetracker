@@ -22,6 +22,9 @@ class ApiService {
   project_create(data) {
     return http.post("project-create/", data);
   }
+  timeLog_create(data) {
+    return http.post("timelog/", data);
+  }
   task_create(data) {
     return http.post("task-create/", data);
   }

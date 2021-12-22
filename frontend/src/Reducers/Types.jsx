@@ -1,6 +1,8 @@
 export const REDIRECT = "REDIRECT";
 
-export const AUTHORIZATION_REQUEST = "AUTHORIZATION";
+export const AUTHORIZATION = "AUTHORIZATION";
+
+export const LOGOUT = "LOGOUT";
 
 export const LOAD_USER_LIST = "LOAD_USER_LIST";
 
@@ -27,6 +29,8 @@ export const EDIT_PROJECT = "EDIT_PROJECT";
 export const DELETE_TASK = "DELETE_TASK";
 
 export const SAVE_EDIT_TASK = "SAVE_EDIT_TASK";
+
+export const ADD_TIME_LOG = "ADD_TIME_LOG";
 
 //loading
 export const START_LOADING = "START_LOADING";

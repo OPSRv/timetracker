@@ -1,10 +1,33 @@
 .task-edit-wrapper {
-  background-color: rgb(70, 70, 70);
+  padding-top: 30px;
+  background-color: rgb(54, 54, 54);
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+
   .task-header {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
+
+    h1 {
+      svg {
+        font-size: 24px;
+        &:hover {
+          opacity: 0.95;
+          box-shadow: 2px 2px 14px rgba(black, 0.3);
+        }
+        &:active {
+          transform: scale(0.95, 0.95);
+        }
+      }
+    }
+  }
+  .task-content-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
     .svg-edit {
       color: rgb(10, 147, 175);
     }
@@ -22,7 +45,7 @@
   .form-task-edit {
     display: flex;
     flex-flow: column nowrap;
-    align-self: center;
+    width: 50%;
     #description {
       min-height: 70px;
     }
@@ -73,7 +96,7 @@
     }
     label {
       color: rgb(245, 245, 245);
-      padding-right: 30px;
+      padding-right: 5px;
       width: 125px;
     }
     textarea {
@@ -165,6 +188,7 @@
   box-shadow: 5px 10px 15px 15px rgba(18, 214, 44, 0.25);
   border-radius: 15px;
   padding: 15px;
+  width: 90%;
   h1 {
     color: rgba(18, 214, 44, 0.25);
   }
@@ -182,10 +206,27 @@
   border-radius: 15px;
   padding: 15px;
 }
+.timelog-wrapper {
+  background-color: rgba(255, 255, 255, 0.075);
+  border-radius: 15px;
+  padding: 10px;
+  margin: 2px;
+  transition: 1s;
+}
+.timelog-content {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+.comments {
+  width: 50%;
+}
 .comments-wrapper {
   background-color: rgba(255, 255, 255, 0.075);
   border-radius: 15px;
   padding: 10px;
+  margin: 2px;
+  transition: 1s;
   .textarea-wrapper {
     display: flex;
     flex-flow: row nowrap;
@@ -227,7 +268,12 @@
       }
     }
   }
-
+  .comments-card {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-direction: column-reverse;
+    width: 100%;
+  }
   .comments-card-wrapper {
     display: flex;
     flex-flow: row nowrap;
@@ -239,10 +285,12 @@
     padding: 10px;
     margin-top: 15px;
     box-shadow: 2px 2px 8px rgba(black, 0.3);
+    min-width: 95%;
     .comments-card-picture {
-      padding: 10px;
+      padding: 5px;
       display: flex;
       flex-flow: column nowrap;
+
       align-items: center;
       width: 64px;
 
@@ -273,3 +321,22 @@
     }
   }
 }
+.timelog-form {
+  #input-comment {
+    width: 40px;
+    margin: 0 20px 0 20px;
+  }
+}
+
+.timelog-hours {
+  align-items: flex-end;
+  font-size: 40px;
+  p {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+// * {
+//   border: 1px solid red;
+// }

@@ -11,11 +11,7 @@ const Comments = () => {
   const { theme } = useParams();
   const { comments } = useSelector((state) => state.timetracker.CurrentTask);
 
-  const auth_token = useSelector(
-    (state) => state.timetracker.Authorization.auth_token
-  );
-
-  const { id, username, user_picture } = useSelector(
+  const { username, user_picture } = useSelector(
     (state) => state.timetracker.CurrentUser
   );
 
@@ -36,11 +32,12 @@ const Comments = () => {
       ],
     };
     setCommentText("");
+
     dispatch(addCommnetTask(theme, comment_data));
   };
 
   return (
-    <div className="comments-wrapper">
+    <div className="">
       <div className="textarea-wrapper">
         <form onSubmit={onSendDataUs}>
           <button className="btn-blue" type="submit">

@@ -9,7 +9,7 @@ import { Loading } from "./Loading";
 
 const Projects = () => {
   const dispatch = useDispatch();
-  const projectsList = useSelector((state) => state.timetracker.ProjectList);
+  const listProjects = useSelector((state) => state.timetracker.ProjectList);
   const isloading = useSelector((state) => state.loading.isLoading);
 
   const getProjectsCall = useCallback(
@@ -18,8 +18,9 @@ const Projects = () => {
   );
 
   useEffect(() => {
+    console.log(listProjects);
     getProjectsCall();
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
@@ -27,12 +28,12 @@ const Projects = () => {
         <Loading />
       ) : (
         <div className="projects-container">
-          <div className="users">
-            {projectsList && projectsList.length !== 0 ? (
-              projectsList.map((item) => {
+          <div className="projects-wrapper">
+            {listProjects && listProjects.length !== 0 ? (
+              listProjects.map((item) => {
                 return (
                   <Link to={`${item.name}`} key={item.id}>
-                    <div className="user-card">
+                    <div className="project-card">
                       <GiUnstableProjectile />
                       <p className="project-name">{item.name}</p>
                     </div>

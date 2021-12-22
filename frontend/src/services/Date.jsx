@@ -118,6 +118,9 @@ export const dateNow = (date) => {
     case 11:
       fMonth = "12";
       break;
+    default:
+      fMonth = Month;
+      break;
   }
 
   const dateFormat =

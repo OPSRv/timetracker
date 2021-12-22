@@ -1,5 +1,5 @@
 import {
-  AUTHORIZATION_REQUEST,
+  AUTHORIZATION,
   LOAD_USER_LIST,
   LOAD_USER_ID,
   LOAD_PROJECT_LIST,
@@ -10,6 +10,8 @@ import {
   CREATE_TASK,
   EDIT_TASK,
   ADD_COMMENT_TASK,
+  ADD_TIME_LOG,
+  LOGOUT,
   START_LOADING,
   SUCSSES,
   ERROR,
@@ -28,13 +30,13 @@ export const getAuth = (auth) => async (dispatch) => {
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "AUTHORIZATION ERR ApiService");
+      console.log(error.message, "AUTHORIZATION ERROR ApiService");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
     });
   return store.dispatch({
-    type: AUTHORIZATION_REQUEST,
+    type: AUTHORIZATION,
     payload: res,
   });
 };
@@ -42,16 +44,24 @@ export const getAuth = (auth) => async (dispatch) => {
 export const getCurrentUsers = (token) => async (dispatch) => {
   const res = await ApiService.getAll("/auth/users/me")
     .then((data) => {
-      localStorage.setItem("userCurrent", data.data.username);
+      // localStorage.setItem("userCurrent", data.data.username);
       return data.data;
     })
     .catch((error) => {
-      console.log(error.message, "CURRENT_USER ERR ApiService");
+      console.log(error.message, "CURRENT_USER ERROR ApiService");
     })
     .finally(() => {});
   return store.dispatch({
     type: LOAD_CURRENT_USER,
     payload: res,
+  });
+};
+
+export const outLogin = () => async (dispatch) => {
+  localStorage.clear();
+  return store.dispatch({
+    type: LOGOUT,
+    payload: "",
   });
 };
 
@@ -63,7 +73,7 @@ export const getUsers = () => async (dispatch) => {
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "LOAD_USER_LIST ERR ApiService");
+      console.log(error.message, "LOAD_USER_LIST ERROR ApiService");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
@@ -81,7 +91,7 @@ export const getUserId = (url) => async (dispatch) => {
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "LOAD_USER_ID ERR ApiService");
+      console.log(error.message, "LOAD_USER_ID ERROR ApiService");
     });
   return store.dispatch({
     type: LOAD_USER_ID,
@@ -97,7 +107,7 @@ export const getProjects = () => async (dispatch) => {
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "PROJECT_LIST ERR ApiService");
+      console.log(error.message, "PROJECT_LIST ERROR ApiService");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
@@ -110,14 +120,14 @@ export const getProjects = () => async (dispatch) => {
 };
 
 export const createProject = (project_data) => async (dispatch) => {
+  dispatch({ type: START_LOADING });
   const res = await ApiService.project_create(project_data)
     .then((data) => {
-      dispatch({ type: START_LOADING });
       return data.data;
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "AUTHORIZATION ERR ApiService");
+      console.log(error.message, "CREATE_PROJECT ERROR ApiService");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
@@ -136,7 +146,7 @@ export const getProjectId = (url) => async (dispatch) => {
     })
     .catch((error) => {
       // dispatch({ type: ERROR });
-      console.log(error.message, "LOAD_PROJECT_ID ERR ApiService");
+      console.log(error.message, "LOAD_PROJECT_ID ERROR ApiService");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
@@ -155,7 +165,7 @@ export const getTask = (path) => async (dispatch) => {
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "LOAD_TASK ERR ApiService");
+      console.log(error.message, "LOAD_TASK ERROR ApiService");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
@@ -174,7 +184,7 @@ export const createTask = (task_data) => async (dispatch) => {
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "CREATE_TASK ERR ApiService");
+      console.log(error.message, "CREATE_TASK ERROR ApiService");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
@@ -202,8 +212,6 @@ export const editTask = (theme, data) => async (dispatch) => {
 };
 
 export const addCommnetTask = (theme, data) => async (dispatch) => {
-  console.log(theme, data, "theme, data");
-
   const res = await ApiService.task_add_comment(theme, data)
     .then((data) => {
       return data.data;
@@ -211,9 +219,27 @@ export const addCommnetTask = (theme, data) => async (dispatch) => {
     .catch((error) => {
       console.log(error.message, "ADD_COMMENT_TASK ApiService");
     });
-
   return store.dispatch({
     type: ADD_COMMENT_TASK,
+    payload: res.comments[0],
+  });
+};
+
+export const addTimeLog = (timeLog_data) => async (dispatch) => {
+  const res = await ApiService.timeLog_create(timeLog_data)
+    .then((data) => {
+      dispatch({ type: START_LOADING });
+      return data.data;
+    })
+    .catch((error) => {
+      dispatch({ type: ERROR });
+      console.log(error.message, "ADD_TIME_LOG ERROR ApiService");
+    })
+    .finally(() => {
+      dispatch({ type: SUCSSES });
+    });
+  return store.dispatch({
+    type: ADD_TIME_LOG,
     payload: res,
   });
 };

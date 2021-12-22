@@ -43,7 +43,7 @@ const ProjectId = () => {
                           src={item.user_picture}
                           alt="userpicture"
                         />
-                        <p>{item.username}</p>
+                        <p className="users-username-text">{item.username}</p>
                         <span>-</span>
                         <p>{item.position}</p>
                       </div>
@@ -68,7 +68,7 @@ const ProjectId = () => {
                   );
                 })
               ) : (
-                <span></span>
+                <span>no tasks</span>
               )}
             </div>
           </div>
