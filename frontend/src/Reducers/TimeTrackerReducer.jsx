@@ -17,6 +17,24 @@ import {
 const token = localStorage.getItem("auth_token");
 const isAuth = localStorage.getItem("isAuthenticated");
 
+const defaultState = {
+  Authorization: {
+    auth_token: token ? token : "",
+    username: "",
+    user_id: "",
+  },
+  isAuthenticated: isAuth ? isAuth : false,
+  UserList: [],
+  UserId: {},
+  CurrentUser: {},
+  ProjectList: [],
+  ProjectId: {
+    tasks: [],
+    performers: [],
+  },
+  CurrentTask: {},
+};
+
 const initialState = {
   Authorization: {
     auth_token: token ? token : "",
@@ -45,17 +63,7 @@ const TimeTrackerReducer = (state = initialState, action) => {
         Authorization: action.payload,
       };
     case LOGOUT:
-      return {
-        ...state,
-        isAuthenticated: false,
-        Authorization: {
-          ...state.Authorization,
-          auth_token: undefined,
-          username: undefined,
-          user_id: undefined,
-        },
-        CurrentUser: {},
-      };
+      return {};
 
     case LOAD_USER_LIST:
       return {
@@ -101,14 +109,22 @@ const TimeTrackerReducer = (state = initialState, action) => {
         ...state,
         ProjectId: {
           ...state.ProjectId,
-          tasks: state.ProjectId.tasks.concat(action.payload),
+          // tasks: state.ProjectId.tasks.concat(action.payload),
+          tasks: [...state.ProjectId.tasks, action.payload],
         },
       };
     case EDIT_TASK:
+      console.log(action.payload, "EDIT_TASK");
       return {
         ...state,
         CurrentTask: action.payload,
+
+        ProjectId: {
+          ...state.ProjectId,
+          tasks: [...state.ProjectId.tasks, action.payload],
+        },
       };
+
     case ADD_COMMENT_TASK:
       console.log(action.payload, "action.payload");
       return {

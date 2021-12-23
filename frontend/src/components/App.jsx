@@ -47,7 +47,6 @@ const App = () => {
           <Route path="projects/:name" element={<ProjectId />} />
           <Route path="projects/:name/task-create" element={<TaskCreate />} />
           <Route path="project-create" element={<ProjectCreate />} />
-
           <Route path="task/:theme" element={<Task />} />
           <Route path="timelog" element={<TimeLog />} />
           <Route path="timelog" element={<TimeLog />} />

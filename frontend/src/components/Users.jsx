@@ -9,13 +9,18 @@ import { NoAuth } from "./NoAuth";
 
 const Users = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const userList = useSelector((state) => state.timetracker.UserList);
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+
+  const { isAuthenticated } = useSelector((state) => state.timetracker);
 
   return (
     <>
       <div className="users ">
-        {userList && userList.length !== 0 ? (
+        {isAuthenticated && !!userList ? (
           userList.map((item) => (
             <Link to={`users/${item.username}`} key={item.id}>
               <div className="user-card">
@@ -32,7 +37,7 @@ const Users = () => {
           ))
         ) : (
           <NoAuth />
-        )}{" "}
+        )}
       </div>
     </>
   );

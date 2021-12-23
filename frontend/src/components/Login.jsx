@@ -21,20 +21,8 @@ const Login = () => {
       password: password,
     };
     dispatch(getAuth(newAuth));
-    console.log(fromPage);
     navigate(fromPage, { replace: true });
   };
-
-  const auth_token = useSelector(
-    (state) => state.timetracker.Authorization.auth_token
-  );
-  const currentUser = useSelector((state) => state.timetracker.CurrentUser);
-
-  useEffect(() => {
-    if (currentUser && currentUser.length !== 0) {
-      dispatch(getCurrentUsers(auth_token));
-    }
-  }, []);
 
   return (
     <>

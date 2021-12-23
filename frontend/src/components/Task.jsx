@@ -57,7 +57,7 @@ const Task = () => {
 
   useEffect(() => {
     dispatch(getTask(theme));
-  }, [dispatch]);
+  }, [dispatch, theme]);
 
   const dateStart = dateNow(new Date(task.date_start));
 
@@ -83,12 +83,8 @@ const Task = () => {
   }
   return (
     <>
-      {!isloading && task.length !== 0 ? (
-        <div
-          className={`${
-            task && task.length !== 0 ? taskPriorityStyle : ""
-          } task-edit-wrapper`}
-        >
+      {!isloading ? (
+        <div className={`${task ? taskPriorityStyle : ""} task-edit-wrapper`}>
           <div className="task-header">
             <h1 className={!isReadOnly.readOnly ? "blink" : ""}>
               Task{" "}

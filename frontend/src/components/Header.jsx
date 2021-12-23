@@ -10,39 +10,28 @@ import { LoadingSmall } from "./LoadingSmall";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { isAuthenticated } = useSelector((state) => state.timetracker);
-  const usersAuth = useSelector((state) => state.timetracker.CurrentUser);
-  const auth_token = useSelector(
-    (state) => state.timetracker.Authorization.auth_token
-  );
-
-  const getUsersIdDispatch = useCallback(() => {
-    dispatch(getCurrentUsers(auth_token));
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(getUsers());
-      getUsersIdDispatch();
-    }
-  }, [dispatch]);
+  const currentUser = useSelector((state) => state.timetracker.CurrentUser);
 
   const isLogOut = () => {
     dispatch(outLogin());
     navigate("/login");
   };
 
+  useEffect(() => {}, [currentUser]);
+
   return (
     <>
       {isAuthenticated ? (
-        usersAuth && usersAuth.username ? (
+        currentUser && currentUser.username ? (
           <div className="header-wrapper">
             <img
               className="header-userpicture"
-              src={usersAuth.user_picture}
+              src={currentUser.user_picture}
               alt="user_picture"
             />
-            <p className="header-text-name">{usersAuth.username}</p>
+            <p className="header-text-name">{currentUser.username}</p>
             <CgLogOut onClick={() => isLogOut()} />
           </div>
         ) : (

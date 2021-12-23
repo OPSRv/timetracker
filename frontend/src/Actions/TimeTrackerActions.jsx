@@ -158,9 +158,9 @@ export const getProjectId = (url) => async (dispatch) => {
 };
 
 export const getTask = (path) => async (dispatch) => {
+  dispatch({ type: START_LOADING });
   const res = await ApiService.get(`task/${path}`)
     .then((data) => {
-      dispatch({ type: START_LOADING });
       return data.data;
     })
     .catch((error) => {
