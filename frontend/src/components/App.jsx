@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
 //hoc
 import { RequireAuth } from "./hoc/RequireAuth";
 //components
@@ -16,8 +15,6 @@ import { Signup } from "./Signup";
 import { ProjectId } from "./ProjectId";
 import { ProjectCreate } from "./ProjectCreate";
 import { TaskCreate } from "./TaskCreate";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const App = () => {
   return (

@@ -26,9 +26,6 @@ class TaskSerializerDetail(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = '__all__'
-        # fields = ('id', 'theme', 'description', 'date_start', 'date_end', 'update', 'task_type',
-        #           'task_priority', 'estimated_time', 'comments', 'author', 'project', 'performer', 'timelog')
-        # depth = 1
 
 
 class ProjectSerializerDetail(serializers.ModelSerializer):

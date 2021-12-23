@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAuth, getCurrentUsers } from "../Actions/TimeTrackerActions";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getAuth } from "../Actions/TimeTrackerActions";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../assets/css/login.scss";
 

@@ -13,7 +13,16 @@ def send_email_if_changed(sender, instance, **kwargs):
     except Task.DoesNotExist:
         pass
     else:
-        if not obj.theme == instance.theme or obj.description == instance.description or obj.date_start == instance.date_start or obj.date_end == instance.date_end or obj.task_type == instance.task_type or obj.task_priority == instance.task_priority or obj.estimated_time == instance.estimated_time:
+        if not obj.theme == instance.theme and obj.description == instance.description and obj.date_start == instance.date_start and obj.date_end == instance.date_end and obj.task_type == instance.task_type and obj.task_priority == instance.task_priority and obj.estimated_time == instance.estimated_time and obj.comments == instance.comments:
+
+            print(obj.theme == instance.theme)
+            print(obj.description == instance.description)
+            print(obj.date_start == instance.date_start)
+            print(obj.date_end == instance.date_end)
+            print(obj.task_type == instance.task_type)
+            print(obj.task_priority == instance.task_priority)
+            print(obj.estimated_time == instance.estimated_time)
+
             context = {
                 'task': [obj.theme, obj.description, obj.date_start, obj.date_end,
                          obj.task_type, obj.task_priority, obj.estimated_time],
@@ -27,14 +36,14 @@ def send_email_if_changed(sender, instance, **kwargs):
                              instance.estimated_time]
             }
 
-    html_body = render_to_string('email.html', context)
-    msg_performer = EmailMultiAlternatives(
-        subject=f'Hello {instance.performer.username}', to=[instance.performer.email])
-    msg_performer.attach_alternative(html_body, "text/html")
+            html_body = render_to_string('email.html', context)
+            msg_performer = EmailMultiAlternatives(
+                subject=f'Hello {instance.performer.username}', to=[instance.performer.email])
+            msg_performer.attach_alternative(html_body, "text/html")
 
-    msg_author = EmailMultiAlternatives(
-        subject=f'Hello {obj.author.username}', to=[obj.author.email])
-    msg_author.attach_alternative(html_body, "text/html")
+            msg_author = EmailMultiAlternatives(
+                subject=f'Hello {obj.author.username}', to=[obj.author.email])
+            msg_author.attach_alternative(html_body, "text/html")
 
-    msg_author.send()
-    msg_performer.send()
+            msg_author.send()
+            msg_performer.send()

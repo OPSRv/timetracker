@@ -44,6 +44,7 @@ const ProjectCreate = () => {
     };
     console.log(project_data, "project_data comp");
     dispatch(createProject(project_data));
+    setPerformers([]);
     navigate("/projects");
   };
 

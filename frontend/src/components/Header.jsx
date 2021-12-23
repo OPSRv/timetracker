@@ -1,9 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "../assets/css/header.scss";
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUsers, outLogin } from "../Actions/TimeTrackerActions";
-import { getUsers } from "../Actions/TimeTrackerActions";
+import { outLogin } from "../Actions/TimeTrackerActions";
 import { CgLogOut } from "react-icons/cg";
 import { LoadingSmall } from "./LoadingSmall";
 

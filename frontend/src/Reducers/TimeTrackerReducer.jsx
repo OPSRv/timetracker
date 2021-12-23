@@ -17,24 +17,6 @@ import {
 const token = localStorage.getItem("auth_token");
 const isAuth = localStorage.getItem("isAuthenticated");
 
-const defaultState = {
-  Authorization: {
-    auth_token: token ? token : "",
-    username: "",
-    user_id: "",
-  },
-  isAuthenticated: isAuth ? isAuth : false,
-  UserList: [],
-  UserId: {},
-  CurrentUser: {},
-  ProjectList: [],
-  ProjectId: {
-    tasks: [],
-    performers: [],
-  },
-  CurrentTask: {},
-};
-
 const initialState = {
   Authorization: {
     auth_token: token ? token : "",

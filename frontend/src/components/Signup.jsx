@@ -1,6 +1,7 @@
 import { useState } from "react";
-import ApiService from "../Services/ApiService";
 import { useNavigate } from "react-router";
+import ApiService from "../Services/ApiService";
+
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [position, setPosition] = useState("");
@@ -9,13 +10,6 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
   const navigate = useNavigate();
-  // const toogle = (event) => {
-  //   setUsername(username);
-  //   setPosition(position);
-  //   setBirthdate(birth_date);
-  //   setEmail(email);
-  //   setPassword(password);
-  // };
 
   const onSendDataUs = (event) => {
     event.preventDefault();

@@ -29,11 +29,13 @@ class ProjectDetailViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializerDetail
     lookup_field = 'name'
-    permission_classes = [AllowAny]
-    # permission_classes = [IsPerformersOrAdminViews]
+    permission_classes = [IsPerformersOrAdminViews]
 
-    # def get_queryset(self):
-    #     return self.request.user.performers.all()
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Project.objects.all()
+        else:
+            return self.request.user.performers.all()
 
 
 class TaskViewSet(viewsets.ModelViewSet):
