@@ -21,6 +21,6 @@ start project
 
 6. cd frontend
 
-7. nmp i
+7. npm i
 
 8. npm start
