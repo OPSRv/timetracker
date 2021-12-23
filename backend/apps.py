@@ -6,3 +6,6 @@ class BackendConfig(AppConfig):
     name = 'backend'
     verbose_name = 'Backend'
     label = 'backend'
+
+    def ready(self):
+        import backend.signals

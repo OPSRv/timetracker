@@ -1,18 +1,15 @@
-from django.http import request
-from django.http.response import JsonResponse
-from rest_framework import generics, viewsets
-from rest_framework.permissions import AllowAny, IsAdminUser
-from rest_framework.views import APIView
-
-from timetracker.settings import EMAIL_HOST_USER
+from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from .models import CustomUser, Project, Task, TimeLog
 from .serializers import ProjectSerializerDetail, ProjectSerializer, UserSerializer, TaskSerializer, TaskSerializerDetail, TimeLogSerializer
 from .base.permissions import IsPerformersOrAdminViews
-
-from django.core.mail import message, send_mail
-from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from django.core.mail.message import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
+from django.db import models
+from django.dispatch import receiver
+from django_model_changes import ChangesMixin
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -44,16 +41,6 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     lookup_field = 'theme'
     permission_classes = [AllowAny]
-
-    def save(self):
-        send_mail(
-            'Subject here',
-            'Here is the message.',
-            EMAIL_HOST_USER,
-            ['ops_rv@ukr.net'],
-            fail_silently=False,
-        )
-        print(EMAIL_HOST_USER)
 
 
 class TaskDetailViewSet(viewsets.ModelViewSet):
