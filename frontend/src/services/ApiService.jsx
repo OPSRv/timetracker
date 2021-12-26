@@ -36,21 +36,22 @@ class ApiService {
   task_add_comment(theme, data) {
     return http.patch(`task-create/${theme}/`, data);
   }
-  update(id, data) {
-    return http.put(`/api/contacts/${id}`, data);
-  }
 
-  delete(id) {
-    return http.delete(`/api/contacts/${id}`);
-  }
+  // update(id, data) {
+  //   return http.put(`/api/contacts/${id}`, data);
+  // }
 
-  deleteAll() {
-    return http.delete(`/api/contacts`);
-  }
+  // delete(id) {
+  //   return http.delete(`/api/contacts/${id}`);
+  // }
 
-  findByTitle(title) {
-    return http.get(`/api/contacts?title=${title}`);
-  }
+  // deleteAll() {
+  //   return http.delete(`/api/contacts`);
+  // }
+
+  // findByTitle(title) {
+  //   return http.get(`/api/contacts?title=${title}`);
+  // }
 }
 
 export default new ApiService();

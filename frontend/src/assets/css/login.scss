@@ -38,11 +38,12 @@
 }
 .form-box {
   width: 380px;
-  height: 500px;
+  height: 600px;
   background-color: #2d2d2d;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   opacity: 0.5;
   border-radius: 2%;
   box-shadow: 0 0 1rem 0 rgba(10, 147, 175, 0.675);
@@ -64,9 +65,8 @@
   }
 
   input[type="date"] {
-    width: 166px;
+    width: 300px;
     height: 18px;
-    color: rgb(0, 87, 109);
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
   input:-webkit-autofill,

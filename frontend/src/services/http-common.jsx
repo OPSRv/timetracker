@@ -1,14 +1,14 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
-const TOKEN = localStorage.getItem("auth_token");
-
-const BASE_URL_API = "http://127.0.0.1:8000/api/";
-
+const TOKEN = Cookies.get("auth_token");
+const BASE_URL_API = "/api/";
+console.log(TOKEN);
 export const http = axios.create({
   baseURL: BASE_URL_API,
   headers: {
     Accept: "application/json",
-    Authorization: TOKEN,
+    Authorization: `Token ${TOKEN}`,
   },
 });
 

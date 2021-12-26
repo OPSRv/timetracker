@@ -5,9 +5,11 @@ import {
   LOAD_PROJECT_LIST,
   LOAD_PROJECT_ID,
   CREATE_PROJECT,
+  DELETE_PROJECT,
   LOAD_CURRENT_USER,
   LOAD_TASK,
   CREATE_TASK,
+  DELETE_TASK,
   EDIT_TASK,
   ADD_COMMENT_TASK,
   ADD_TIME_LOG,
@@ -17,67 +19,75 @@ import {
   ERROR,
 } from "../Reducers/Types";
 
-import store from "../store";
+import store from "../Reducers/store";
 import ApiService from "../Services/ApiService";
+import api from "../Services/api";
+import Cookies from "js-cookie";
 
-export const getAuth = (auth) => async (dispatch) => {
-  const res = await ApiService.authorization(auth)
-    .then((data) => {
+export const getAuth = (data) => async (dispatch) => {
+  console.log(data);
+  const result = await api.auth
+    .authorization(data)
+    .then((res) => {
       dispatch({ type: START_LOADING });
-      localStorage.setItem("auth_token", `Token ${data.data.auth_token}`);
-      localStorage.setItem("isAuthenticated", true);
-      return data.data;
+      Cookies.set("auth_token", res.data.auth_token);
+      return res.data.auth_token;
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "AUTHORIZATION ERROR ApiService");
+      console.log(error.message, "AUTHORIZATION ERROR");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
     });
+  dispatch(getUser());
   return store.dispatch({
     type: AUTHORIZATION,
-    payload: res,
+    payload: result,
   });
 };
 
-export const getCurrentUsers = (token) => async (dispatch) => {
-  const res = await ApiService.getAll("/auth/users/me")
-    .then((data) => {
-      // localStorage.setItem("userCurrent", data.data.username);
-      return data.data;
+export const getUser = () => async (dispatch) => {
+  const result = await api.auth
+    .getUser()
+    .then(({ data }) => {
+      if (data) {
+        Cookies.set("isAuthenticated", true);
+      }
+      return data;
     })
     .catch((error) => {
-      console.log(error.message, "CURRENT_USER ERROR ApiService");
+      dispatch({ type: ERROR });
+      console.log(error.message, "AUTHORIZATION ERROR");
     })
-    .finally(() => {});
+    .finally(() => {
+      dispatch({ type: SUCSSES });
+    });
+
   return store.dispatch({
     type: LOAD_CURRENT_USER,
-    payload: res,
+    payload: result,
   });
 };
 
 export const outLogin = () => async (dispatch) => {
-  localStorage.clear();
+  Cookies.remove("auth_token");
   return store.dispatch({
     type: LOGOUT,
     payload: "",
   });
 };
 
-export const getUsers = () => async (dispatch) => {
+export const getUsersList = () => async (dispatch) => {
   const res = await ApiService.getAll("/auth/users")
-    .then((data) => {
-      dispatch({ type: START_LOADING });
-      return data.data;
+    .then(({ data }) => {
+      console.log(data);
+      return data;
     })
     .catch((error) => {
-      dispatch({ type: ERROR });
-      console.log(error.message, "LOAD_USER_LIST ERROR ApiService");
-    })
-    .finally(() => {
-      dispatch({ type: SUCSSES });
+      console.log(error.message, "LOAD_USER_LIST ERROR");
     });
+
   return store.dispatch({
     type: LOAD_USER_LIST,
     payload: res,
@@ -86,12 +96,12 @@ export const getUsers = () => async (dispatch) => {
 
 export const getUserId = (url) => async (dispatch) => {
   const res = await ApiService.get(url)
-    .then((data) => {
-      return data.data;
+    .then(({ data }) => {
+      return data;
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "LOAD_USER_ID ERROR ApiService");
+      console.log(error.message, "LOAD_USER_ID ERROR");
     });
   return store.dispatch({
     type: LOAD_USER_ID,
@@ -102,12 +112,12 @@ export const getUserId = (url) => async (dispatch) => {
 export const getProjects = () => async (dispatch) => {
   dispatch({ type: START_LOADING });
   const res = await ApiService.getAll("/projects")
-    .then((data) => {
-      return data.data;
+    .then(({ data }) => {
+      return data;
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "PROJECT_LIST ERROR ApiService");
+      console.log(error.message, "LOAD_PROJECT_LIST ERROR");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
@@ -120,33 +130,45 @@ export const getProjects = () => async (dispatch) => {
 };
 
 export const createProject = (project_data) => async (dispatch) => {
-  dispatch({ type: START_LOADING });
   const res = await ApiService.project_create(project_data)
-    .then((data) => {
-      return data.data;
+    .then(({ data }) => {
+      return data;
     })
     .catch((error) => {
-      dispatch({ type: ERROR });
-      console.log(error.message, "CREATE_PROJECT ERROR ApiService");
-    })
-    .finally(() => {
-      dispatch({ type: SUCSSES });
+      console.log(error.message, "CREATE_PROJECT ERROR");
     });
+
   return store.dispatch({
     type: CREATE_PROJECT,
     payload: res,
   });
 };
 
+export const deleteProject = (name) => async (dispatch) => {
+  await api.project.deleteProject(name);
+  return store.dispatch({
+    type: DELETE_PROJECT,
+    payload: name,
+  });
+};
+
+export const deleteTask = (theme) => async (dispatch) => {
+  await api.task.deleteTask(theme);
+  return store.dispatch({
+    type: DELETE_TASK,
+    payload: theme,
+  });
+};
+
 export const getProjectId = (url) => async (dispatch) => {
   dispatch({ type: START_LOADING });
   const res = await ApiService.get(url)
-    .then((data) => {
-      return data.data;
+    .then(({ data }) => {
+      return data;
     })
     .catch((error) => {
       // dispatch({ type: ERROR });
-      console.log(error.message, "LOAD_PROJECT_ID ERROR ApiService");
+      console.log(error.message, "LOAD_PROJECT_ID ERROR");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
@@ -160,12 +182,12 @@ export const getProjectId = (url) => async (dispatch) => {
 export const getTask = (path) => async (dispatch) => {
   dispatch({ type: START_LOADING });
   const res = await ApiService.get(`task/${path}`)
-    .then((data) => {
-      return data.data;
+    .then(({ data }) => {
+      return data;
     })
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "LOAD_TASK ERROR ApiService");
+      console.log(error.message, "LOAD_TASK ERROR");
     })
     .finally(() => {
       dispatch({ type: SUCSSES });
@@ -177,19 +199,13 @@ export const getTask = (path) => async (dispatch) => {
 };
 
 export const createTask = (task_data) => async (dispatch) => {
-  dispatch({ type: START_LOADING });
   const res = await ApiService.task_create(task_data)
     .then((data) => {
       return data.data;
     })
     .catch((error) => {
-      dispatch({ type: ERROR });
-      console.log(error.message, "CREATE_TASK ERROR ApiService");
-    })
-    .finally(() => {
-      dispatch({ type: SUCSSES });
+      console.log(error.message, "CREATE_TASK ERROR");
     });
-
   return store.dispatch({
     type: CREATE_TASK,
     payload: res,
@@ -202,9 +218,8 @@ export const editTask = (theme, data) => async (dispatch) => {
       return data.data;
     })
     .catch((error) => {
-      console.log(error.message, "EDIT_TASK ApiService");
+      console.log(error.message, "EDIT_TASK");
     });
-
   return store.dispatch({
     type: EDIT_TASK,
     payload: res,
@@ -217,7 +232,7 @@ export const addCommnetTask = (theme, data) => async (dispatch) => {
       return data.data;
     })
     .catch((error) => {
-      console.log(error.message, "ADD_COMMENT_TASK ApiService");
+      console.log(error.message, "ADD_COMMENT_TASK");
     });
   return store.dispatch({
     type: ADD_COMMENT_TASK,
@@ -228,15 +243,10 @@ export const addCommnetTask = (theme, data) => async (dispatch) => {
 export const addTimeLog = (timeLog_data) => async (dispatch) => {
   const res = await ApiService.timeLog_create(timeLog_data)
     .then((data) => {
-      dispatch({ type: START_LOADING });
       return data.data;
     })
     .catch((error) => {
-      dispatch({ type: ERROR });
-      console.log(error.message, "ADD_TIME_LOG ERROR ApiService");
-    })
-    .finally(() => {
-      dispatch({ type: SUCSSES });
+      console.log(error.message, "ADD_TIME_LOG ERROR");
     });
   return store.dispatch({
     type: ADD_TIME_LOG,

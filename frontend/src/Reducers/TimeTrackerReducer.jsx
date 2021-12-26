@@ -9,21 +9,22 @@ import {
   CREATE_PROJECT,
   LOAD_TASK,
   CREATE_TASK,
+  DELETE_TASK,
+  DELETE_PROJECT,
   ADD_COMMENT_TASK,
   EDIT_TASK,
   ADD_TIME_LOG,
 } from "./Types";
 
-const token = localStorage.getItem("auth_token");
-const isAuth = localStorage.getItem("isAuthenticated");
+import Cookies from "js-cookie";
 
 const initialState = {
   Authorization: {
-    auth_token: token ? token : "",
+    auth_token: Cookies.get("auth_token"),
     username: "",
     user_id: "",
   },
-  isAuthenticated: isAuth ? isAuth : false,
+  isAuthenticated: Cookies.get("isAuthenticated") ? true : false,
   UserList: [],
   UserId: {},
   CurrentUser: {},
@@ -38,30 +39,53 @@ const initialState = {
 const TimeTrackerReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTHORIZATION:
-      console.log(action.payload);
       return {
         ...state,
+        Authorization: {
+          ...state.Authorization,
+          auth_token: action.payload,
+        },
+      };
+    case LOAD_CURRENT_USER:
+      return {
+        ...state,
+        CurrentUser: action.payload,
         isAuthenticated: true,
-        Authorization: action.payload,
       };
     case LOGOUT:
-      return {};
+      return {
+        ...state,
+        isAuthenticated: false,
+        CurrentUser: {},
+        Authorization: {},
+        ProjectList: {},
+        ProjectId: {},
+        CurrentTask: {},
+      };
 
     case LOAD_USER_LIST:
       return {
         ...state,
         UserList: action.payload,
       };
+    case CREATE_PROJECT:
+      return {
+        ...state,
+        ProjectList: [...state.ProjectList, action.payload],
+      };
+
+    case DELETE_PROJECT:
+      return {
+        ...state,
+        ProjectList: state.ProjectList.filter(
+          (item) => item.name !== action.payload
+        ),
+      };
+
     case LOAD_PROJECT_LIST:
       return {
         ...state,
         ProjectList: action.payload,
-      };
-    case CREATE_PROJECT:
-      console.log(action.payload, "CREATE_PROJECT");
-      return {
-        ...state,
-        ProjectList: [...state.ProjectList, action.payload],
       };
     case LOAD_USER_ID:
       return {
@@ -73,11 +97,6 @@ const TimeTrackerReducer = (state = initialState, action) => {
         ...state,
         ProjectId: action.payload,
       };
-    case LOAD_CURRENT_USER:
-      return {
-        ...state,
-        CurrentUser: action.payload,
-      };
 
     case LOAD_TASK:
       return {
@@ -86,29 +105,36 @@ const TimeTrackerReducer = (state = initialState, action) => {
       };
 
     case CREATE_TASK:
-      console.log("CREATE_TASK", action.payload);
       return {
         ...state,
         ProjectId: {
           ...state.ProjectId,
-          // tasks: state.ProjectId.tasks.concat(action.payload),
           tasks: [...state.ProjectId.tasks, action.payload],
         },
       };
-    case EDIT_TASK:
-      console.log(action.payload, "EDIT_TASK");
+    case DELETE_TASK:
       return {
         ...state,
-        CurrentTask: action.payload,
-
         ProjectId: {
           ...state.ProjectId,
-          tasks: [...state.ProjectId.tasks, action.payload],
+          tasks: state.ProjectId.tasks.filter(
+            (item) => item.theme !== action.payload
+          ),
+        },
+      };
+
+    case EDIT_TASK:
+      return {
+        ...state,
+        ProjectId: {
+          ...state.ProjectId,
+          tasks: state.ProjectId.tasks.map((n) =>
+            n.id === action.payload.id ? action.payload : n
+          ),
         },
       };
 
     case ADD_COMMENT_TASK:
-      console.log(action.payload, "action.payload");
       return {
         ...state,
         CurrentTask: {
@@ -117,7 +143,6 @@ const TimeTrackerReducer = (state = initialState, action) => {
         },
       };
     case ADD_TIME_LOG:
-      console.log(action.payload, "action.payload");
       return {
         ...state,
         CurrentTask: {
