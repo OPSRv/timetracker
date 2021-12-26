@@ -6,7 +6,7 @@ import { FaPlusSquare } from "react-icons/fa";
 import { MdSentimentDissatisfied } from "react-icons/md";
 import "../../assets/css/projects.scss";
 import { Loading } from "../Loading/Loading";
-import { getProjects } from "../../Actions/TimeTrackerActions";
+import { getProjects } from "../../Actions/ProjectActions";
 
 const Projects = () => {
   const dispatch = useDispatch();

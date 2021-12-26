@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { MdOutlineDelete } from "react-icons/md";
-import { deleteTask } from "../../Actions/TimeTrackerActions";
+import { deleteTask } from "../../Actions/TaskActions";
 
 const TaskDelete = ({ task }) => {
   const navigate = useNavigate();

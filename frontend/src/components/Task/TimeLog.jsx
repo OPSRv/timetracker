@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GiExtraTime } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
-import { addTimeLog } from "../../Actions/TimeTrackerActions";
+import { addTimeLog } from "../../Actions/TaskActions";
 
 import { dateNow } from "../../Services/Date";
 

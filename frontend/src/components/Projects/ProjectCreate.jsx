@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { createProject, getUsersList } from "../../Actions/TimeTrackerActions";
+import { createProject } from "../../Actions/ProjectActions";
+import { getUsersList } from "../../Actions/UserActions";
+
 import { Loading } from "../Loading/Loading";
 
 const ProjectCreate = () => {

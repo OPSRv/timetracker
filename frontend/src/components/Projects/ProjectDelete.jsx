@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { MdOutlineDelete } from "react-icons/md";
-import { deleteProject } from "../../Actions/TimeTrackerActions";
+import { deleteProject } from "../../Actions/ProjectActions";
 
 const ProjectDelete = ({ projectId }) => {
   const navigate = useNavigate();

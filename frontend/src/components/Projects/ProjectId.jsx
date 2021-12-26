@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { GiUnstableProjectile, GiBoltBomb } from "react-icons/gi";
 import { ProjectPerformers } from "./ProjectPerformers";
 import { Loading } from "../Loading/Loading";
-import { getProjectId } from "../../Actions/TimeTrackerActions";
+import { getProjectId } from "../../Actions/ProjectActions";
 import { ProjectDelete } from "./ProjectDelete";
 
 const ProjectId = () => {

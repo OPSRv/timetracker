@@ -2,7 +2,7 @@ import { useState } from "react";
 import { VscDiffAdded } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { addCommnetTask } from "../../Actions/TimeTrackerActions";
+import { addCommnetTask } from "../../Actions/TaskActions";
 
 import { dateNow } from "../../Services/Date";
 

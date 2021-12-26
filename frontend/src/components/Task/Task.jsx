@@ -1,4 +1,4 @@
-import { editTask, getTask } from "../../Actions/TimeTrackerActions";
+import { editTask, getTask } from "../../Actions/TaskActions";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

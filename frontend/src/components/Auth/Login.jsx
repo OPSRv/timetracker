@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getAuth, getUser } from "../../Actions/TimeTrackerActions";
+import { getUser, getAuth } from "../../Actions/AuthActions";
 import "../../assets/css/login.scss";
 import { WelcomePage } from "./WelcomePage";
 

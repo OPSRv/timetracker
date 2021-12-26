@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { getUserId } from "../../Actions/TimeTrackerActions";
+import { getUserId } from "../../Actions/UserActions";
 
 const UserId = () => {
   const dispatch = useDispatch();
