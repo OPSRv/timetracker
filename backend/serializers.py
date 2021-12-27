@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('id', 'username', 'position', 'email',
-                  'birth_date', 'user_picture', 'is_staff')
+                  'birth_date', 'user_picture')
         # fields = '__all__'
 
 
@@ -34,7 +34,6 @@ class ProjectSerializerDetail(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ('id', 'name', 'description', 'performers', 'tasks')
-        slug_field = 'name'
         depth = 1
 
 

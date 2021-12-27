@@ -49,7 +49,7 @@ class CustomUserAdmin(UserAdmin):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     model = Project
-    list_display = ['id', 'name', 'description', 'slug']
+    list_display = ['id', 'name', 'description']
 
 
 @admin.register(Task)

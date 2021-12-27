@@ -6,7 +6,6 @@ from django.contrib.auth.models import AbstractUser
 from datetime import date
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
-from .service import django_slugify
 
 
 def upload_to_user_picture(instance, filename):
@@ -21,7 +20,7 @@ class CustomUser(AbstractUser):
                                      default='user_picture/default_user_picture.png')
 
     REQUIRED_FIELDS = ['id', 'user_picture', 'email',
-                       'password', 'position', 'birth_date']
+                       'password', 'position', 'birth_date', 'is_superuser']
 
     def __str__(self):
         return str(self.username)
@@ -32,16 +31,11 @@ class Project(models.Model):
     name = models.CharField(max_length=128, blank=False,
                             verbose_name='Project name')
     description = models.TextField(blank=False, verbose_name="Description")
-    slug = models.SlugField(unique=True, blank=True)
     performers = models.ManyToManyField(
         settings.AUTH_USER_MODEL, verbose_name="performers", related_name='performers')
 
     def __str__(self):
         return str(self.name)
-
-    def save(self, *args, **kwargs):
-        self.slug = django_slugify(self.name)
-        super(Project, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Project'

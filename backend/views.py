@@ -1,15 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
 from .models import CustomUser, Project, Task, TimeLog
 from .serializers import ProjectSerializerDetail, ProjectSerializer, UserSerializer, TaskSerializer, TaskSerializerDetail, TimeLogSerializer
 from .base.permissions import IsPerformersOrAdminViews
-from django.core.mail import send_mail
-from django.core.mail.message import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.db import models
-from django.dispatch import receiver
-from django_model_changes import ChangesMixin
+from django.shortcuts import render
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -23,6 +17,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     lookup_field = 'name'
+    permission_classes = [AllowAny]
 
 
 class ProjectDetailViewSet(viewsets.ModelViewSet):
@@ -43,6 +38,9 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     lookup_field = 'theme'
     permission_classes = [AllowAny]
+
+    def perform_create(self, serializer_class):
+        serializer_class.save(author=self.request.user)
 
 
 class TaskDetailViewSet(viewsets.ModelViewSet):
