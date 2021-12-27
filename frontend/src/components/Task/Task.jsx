@@ -9,7 +9,7 @@ import { TimeLog } from "./TimeLog";
 import { TimeSpent } from "./TimeSpent";
 import "../../assets/css/task.scss";
 import { BiEdit, BiArrowBack } from "react-icons/bi";
-import { clean } from "../../Services/serviceFunction";
+import { clean } from "../../Services/cleanObject";
 import { TaskDelete } from "./TaskDelete";
 const Task = () => {
   const navigate = useNavigate();
@@ -19,13 +19,12 @@ const Task = () => {
   const task = useSelector((state) => state.timetracker.CurrentTask);
 
   const { id, performers } = useSelector(
-    (state) => state.timetracker.ProjectId
+    (state) => state.timetracker.ProjectDetail
   );
 
   const { performer } = useSelector((state) => state.timetracker.CurrentTask);
 
   const { theme } = useParams();
-  const currentUser = useSelector((state) => state.timetracker.CurrentUser.id);
   const isloading = useSelector((state) => state.loading.isLoading);
   const [themeTask, setThemeTask] = useState("");
   const [description, setDescription] = useState("");
@@ -48,7 +47,6 @@ const Task = () => {
       task_priority: task_priority,
       estimated_time: estimated_time,
       performer: editPerformer,
-      author: currentUser,
       project: id,
     };
     //function delete null undefined empty
@@ -61,9 +59,9 @@ const Task = () => {
     dispatch(getTask(theme));
   }, [dispatch, theme]);
 
-  // const dateStart = dateNow(new Date(task.date_start));
-
-  // const dateEnd = dateNow(new Date(task.date_end));
+  function dataFormat(data) {
+    return dateNow(new Date(data));
+  }
 
   const edit = () => {
     setIsReadOnly((prevState) => ({ readOnly: !prevState.readOnly }));
@@ -109,7 +107,7 @@ const Task = () => {
               onSubmit={onSendDataUs}
             >
               <div className="select">
-                <label for="theme">Theme:</label>
+                <label htmlFor="theme">Theme:</label>
                 <input
                   onChange={(event) => setThemeTask(event.target.value)}
                   className={!isReadOnly.readOnly ? "input-effect" : "''"}
@@ -122,7 +120,7 @@ const Task = () => {
                 />
               </div>
               <div className="select">
-                <label for="description">Description:</label>
+                <label htmlFor="description">Description:</label>
                 <textarea
                   onChange={(event) => setDescription(event.target.value)}
                   className={!isReadOnly.readOnly ? "input-effect" : "''"}
@@ -135,10 +133,10 @@ const Task = () => {
                 />
               </div>
               <div className="select">
-                <label for="date_start">Date start:</label>
+                <label htmlFor="date_start">Date start:</label>
 
                 <p className={!isReadOnly.readOnly ? "none" : "date"}>
-                  {task.date_start}
+                  {dataFormat(task.date_start)}
                 </p>
                 <input
                   onChange={(event) => setDateStart(event.target.value)}
@@ -153,9 +151,9 @@ const Task = () => {
                 />
               </div>
               <div className="select">
-                <label for="date_end">Date end:</label>
+                <label htmlFor="date_end">Date end:</label>
                 <p className={!isReadOnly.readOnly ? "none" : "date"}>
-                  {task.date_end}
+                  {dataFormat(task.date_end)}
                 </p>
                 <input
                   onChange={(event) => setDateEnd(event.target.value)}
@@ -170,7 +168,7 @@ const Task = () => {
                 />
               </div>
               <div className="select">
-                <label for="standard-select">Task type:</label>
+                <label htmlFor="standard-select">Task type:</label>
                 <select
                   disabled={isReadOnly.readOnly}
                   id="standard-select"
@@ -183,7 +181,7 @@ const Task = () => {
                 </select>
               </div>
               <div className="select">
-                <label for="standard-select-1">Task priority:</label>
+                <label htmlFor="standard-select-1">Task priority:</label>
                 <select
                   disabled={isReadOnly.readOnly}
                   id="standard-select-1"
@@ -197,7 +195,7 @@ const Task = () => {
                 </select>
               </div>
               <div className="select">
-                <label for="standard-select-1">Performer:</label>
+                <label htmlFor="standard-select-1">Performer:</label>
                 <p className={!isReadOnly.readOnly ? "none" : "date"}>
                   {performer && performer.username.length !== 0
                     ? performer.username
@@ -222,7 +220,7 @@ const Task = () => {
                 </select>
               </div>
               <div className="select">
-                <label for="standard-select">Estimated time:</label>
+                <label htmlFor="standard-select">Estimated time:</label>
                 <input
                   readOnly={isReadOnly.readOnly}
                   onChange={(event) => setEstimatedTime(event.target.value)}

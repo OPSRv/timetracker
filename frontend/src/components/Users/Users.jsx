@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "../../assets/css/users.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsersList } from "../../Actions/UserActions";
-import { useNavigate } from "react-router-dom";
 import { NoAuth } from "../Auth/NoAuth";
 
 const Users = () => {
@@ -16,7 +15,6 @@ const Users = () => {
   }, [dispatch]);
 
   const { isAuthenticated } = useSelector((state) => state.timetracker);
-  console.log(userList);
   return (
     <>
       <div className="users ">

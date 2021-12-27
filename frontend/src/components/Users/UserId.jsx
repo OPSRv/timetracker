@@ -11,7 +11,7 @@ const UserId = () => {
 
   useEffect(() => {
     dispatch(getUserId(url.pathname));
-  }, [dispatch]);
+  }, [dispatch, url]);
 
   return (
     <>

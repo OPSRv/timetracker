@@ -9,9 +9,10 @@ const TaskCreate = () => {
   const { name } = useParams();
 
   const { id, performers } = useSelector(
-    (state) => state.timetracker.ProjectId
+    (state) => state.timetracker.ProjectDetail
   );
 
+  const defaultPerformer = performers[0].id;
   const currentUser = useSelector((state) => state.timetracker.CurrentUser.id);
   const [theme, setTheme] = useState("");
   const [description, setDescription] = useState("");
@@ -20,7 +21,7 @@ const TaskCreate = () => {
   const [task_type, setTaskType] = useState("feature");
   const [task_priority, setTaskPriority] = useState("normal");
   const [estimated_time, setEstimatedTime] = useState("1");
-  const [performer, setPerformer] = useState("");
+  const [performer, setPerformer] = useState(defaultPerformer);
 
   const onSendDataUs = (event) => {
     event.preventDefault();
@@ -51,6 +52,8 @@ const TaskCreate = () => {
             placeholder="theme"
             autoComplete="username"
             name="theme"
+            max="2"
+            min="1"
             required
           />
           <input
@@ -100,7 +103,6 @@ const TaskCreate = () => {
             <select
               id="standard-select"
               required
-              defaultValue={currentUser}
               onChange={(event) => setPerformer(event.target.value)}
             >
               {performers.map((user) => {

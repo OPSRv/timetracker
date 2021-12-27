@@ -11,7 +11,6 @@ import {
 } from "../Reducers/Types";
 
 import store from "../Reducers/store";
-import ApiService from "../Services/ApiService";
 import api from "../Services/api";
 
 export const deleteTask = (theme) => async (dispatch) => {
@@ -22,9 +21,10 @@ export const deleteTask = (theme) => async (dispatch) => {
   });
 };
 
-export const getTask = (path) => async (dispatch) => {
+export const getTask = (theme) => async (dispatch) => {
   dispatch({ type: START_LOADING });
-  const res = await ApiService.get(`task/${path}`)
+  const res = await api.task
+    .get_task(theme)
     .then(({ data }) => {
       return data;
     })
@@ -42,7 +42,9 @@ export const getTask = (path) => async (dispatch) => {
 };
 
 export const createTask = (task_data) => async (dispatch) => {
-  const res = await ApiService.task_create(task_data)
+  console.log(task_data);
+  const res = await api.task
+    .task_create(task_data)
     .then((data) => {
       return data.data;
     })
@@ -56,7 +58,8 @@ export const createTask = (task_data) => async (dispatch) => {
 };
 
 export const editTask = (theme, data) => async (dispatch) => {
-  const res = await ApiService.task_edit(theme, data)
+  const res = await api.task
+    .task_edit(theme, data)
     .then((data) => {
       return data.data;
     })
@@ -70,7 +73,8 @@ export const editTask = (theme, data) => async (dispatch) => {
 };
 
 export const addCommnetTask = (theme, data) => async (dispatch) => {
-  const res = await ApiService.task_add_comment(theme, data)
+  const res = await api.task
+    .task_add_comment(theme, data)
     .then((data) => {
       return data.data;
     })
@@ -84,7 +88,8 @@ export const addCommnetTask = (theme, data) => async (dispatch) => {
 };
 
 export const addTimeLog = (timeLog_data) => async (dispatch) => {
-  const res = await ApiService.timeLog_create(timeLog_data)
+  const res = await api.task
+    .timeLog_create(timeLog_data)
     .then((data) => {
       return data.data;
     })

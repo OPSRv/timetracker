@@ -1,14 +1,12 @@
 import { LOAD_USER_ID, LOAD_USER_LIST, ERROR } from "../Reducers/Types";
 
 import store from "../Reducers/store";
-import ApiService from "../Services/ApiService";
 import api from "../Services/api";
-import Cookies from "js-cookie";
 
 export const getUsersList = () => async (dispatch) => {
-  const res = await ApiService.getAll("/auth/users")
+  const result = await api.user
+    .get_users_list()
     .then(({ data }) => {
-      console.log(data);
       return data;
     })
     .catch((error) => {
@@ -17,12 +15,13 @@ export const getUsersList = () => async (dispatch) => {
 
   return store.dispatch({
     type: LOAD_USER_LIST,
-    payload: res,
+    payload: result,
   });
 };
 
 export const getUserId = (url) => async (dispatch) => {
-  const res = await ApiService.get(url)
+  const result = await api.user
+    .get_user_id(url)
     .then(({ data }) => {
       return data;
     })
@@ -32,6 +31,6 @@ export const getUserId = (url) => async (dispatch) => {
     });
   return store.dispatch({
     type: LOAD_USER_ID,
-    payload: res,
+    payload: result,
   });
 };

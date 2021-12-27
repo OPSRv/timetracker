@@ -1,8 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "../../assets/css/header.scss";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
 import { CgLogOut } from "react-icons/cg";
 import { LoadingSmall } from "../Loading/LoadingSmall";
 import { outLogin } from "../../Actions/AuthActions";

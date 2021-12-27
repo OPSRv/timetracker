@@ -29,7 +29,7 @@ const initialState = {
   UserId: {},
   CurrentUser: {},
   ProjectList: [],
-  ProjectId: {
+  ProjectDetail: {
     tasks: [],
     performers: [],
   },
@@ -58,8 +58,8 @@ const TimeTrackerReducer = (state = initialState, action) => {
         isAuthenticated: false,
         CurrentUser: {},
         Authorization: {},
-        ProjectList: {},
-        ProjectId: {},
+        ProjectList: [],
+        ProjectDetail: {},
         CurrentTask: {},
       };
 
@@ -95,7 +95,7 @@ const TimeTrackerReducer = (state = initialState, action) => {
     case LOAD_PROJECT_ID:
       return {
         ...state,
-        ProjectId: action.payload,
+        ProjectDetail: action.payload,
       };
 
     case LOAD_TASK:
@@ -107,17 +107,17 @@ const TimeTrackerReducer = (state = initialState, action) => {
     case CREATE_TASK:
       return {
         ...state,
-        ProjectId: {
-          ...state.ProjectId,
-          tasks: [...state.ProjectId.tasks, action.payload],
+        ProjectDetail: {
+          ...state.ProjectDetail,
+          tasks: [...state.ProjectDetail.tasks, action.payload],
         },
       };
     case DELETE_TASK:
       return {
         ...state,
-        ProjectId: {
-          ...state.ProjectId,
-          tasks: state.ProjectId.tasks.filter(
+        ProjectDetail: {
+          ...state.ProjectDetail,
+          tasks: state.ProjectDetail.tasks.filter(
             (item) => item.theme !== action.payload
           ),
         },
@@ -126,9 +126,9 @@ const TimeTrackerReducer = (state = initialState, action) => {
     case EDIT_TASK:
       return {
         ...state,
-        ProjectId: {
-          ...state.ProjectId,
-          tasks: state.ProjectId.tasks.map((n) =>
+        ProjectDetail: {
+          ...state.ProjectDetail,
+          tasks: state.ProjectDetail.tasks.map((n) =>
             n.id === action.payload.id ? action.payload : n
           ),
         },

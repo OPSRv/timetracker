@@ -10,7 +10,6 @@ axiosInstance.interceptors.request.use(
     const auth_token = Cookies.get("auth_token");
 
     if (auth_token) {
-      console.log('TOKEN IN HEADER')
       config.headers.authorization = `Token ${auth_token}`;
     }
 

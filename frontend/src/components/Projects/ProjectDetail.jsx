@@ -4,13 +4,13 @@ import { Link, useLocation } from "react-router-dom";
 import { GiUnstableProjectile, GiBoltBomb } from "react-icons/gi";
 import { ProjectPerformers } from "./ProjectPerformers";
 import { Loading } from "../Loading/Loading";
-import { getProjectId } from "../../Actions/ProjectActions";
+import { getProjectDetail } from "../../Actions/ProjectActions";
 import { ProjectDelete } from "./ProjectDelete";
 
-const ProjectId = () => {
+const ProjectDetail = () => {
   const dispatch = useDispatch();
 
-  const projectId = useSelector((state) => state.timetracker.ProjectId);
+  const project = useSelector((state) => state.timetracker.ProjectDetail);
   const url = useLocation();
 
   const { is_superuser } = useSelector(
@@ -18,13 +18,13 @@ const ProjectId = () => {
   );
 
   const getProjectIdCall = useCallback(
-    () => dispatch(getProjectId(url.pathname)),
-    [dispatch]
+    () => dispatch(getProjectDetail(url.pathname)),
+    [dispatch, url]
   );
 
   useEffect(() => {
     getProjectIdCall();
-  }, [dispatch]);
+  }, [dispatch, getProjectIdCall]);
 
   const isloading = useSelector((state) => state.loading.isLoading);
   return (
@@ -35,21 +35,22 @@ const ProjectId = () => {
         <div className="project">
           <div className="projectId-title">
             <h1>
-              <GiUnstableProjectile /> {projectId.name}
+              {" "}
+              <GiUnstableProjectile /> {project.name}{" "}
             </h1>
             {is_superuser && !!is_superuser ? (
-              <ProjectDelete projectId={projectId} />
+              <ProjectDelete project={project} />
             ) : (
               <span></span>
             )}
           </div>
 
-          <p className="project-description">{projectId.description}</p>
+          <p className="project-description">{project.description}</p>
           <div className="project-performers">
             <div className="project-item">
               <h3>Performers:</h3>
-              {projectId && projectId.performers.length !== 0 ? (
-                projectId.performers.map((item) => {
+              {project && project.length !== 0 ? (
+                project.performers.map((item) => {
                   return (
                     <Link to={`/users/${item.username}`} key={item.id}>
                       <ProjectPerformers
@@ -66,8 +67,8 @@ const ProjectId = () => {
             </div>
             <div className="project-item">
               <h3>Task</h3>
-              {projectId && projectId.tasks.length !== 0 ? (
-                projectId.tasks.map((item) => {
+              {project && project.tasks.length !== 0 ? (
+                project.tasks.map((item) => {
                   return (
                     <Link to={`/task/${item.theme}`} key={item.id}>
                       <div className="user-performers">
@@ -95,4 +96,4 @@ const ProjectId = () => {
     </>
   );
 };
-export { ProjectId };
+export { ProjectDetail };

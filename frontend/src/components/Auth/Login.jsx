@@ -34,7 +34,7 @@ const Login = () => {
     if (auth_token) {
       dispatch(getUser());
     }
-  }, []);
+  }, [dispatch]);
 
   if (username && username.length !== 0) {
     return <WelcomePage />;

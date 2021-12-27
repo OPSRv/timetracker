@@ -44,7 +44,6 @@ const TimeLog = () => {
           </button>
           <input
             id="input-comment"
-            defaultValue={1}
             type="number"
             className="input-comment input-timelog-time"
             min={1}
@@ -69,7 +68,7 @@ const TimeLog = () => {
         {timelog && timelog.length !== 0 ? (
           timelog.map((item) => {
             return (
-              <div className="">
+              <div className="" key={item.id}>
                 <div className="comments-card-wrapper">
                   <div className="">
                     <div className="comments-card-picture">

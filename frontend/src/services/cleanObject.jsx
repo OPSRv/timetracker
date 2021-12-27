@@ -1,5 +1,3 @@
-//function delete null undefined empty
-
 export const clean = (obj) => {
   for (let propName in obj) {
     if (

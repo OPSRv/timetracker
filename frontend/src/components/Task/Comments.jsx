@@ -3,7 +3,7 @@ import { VscDiffAdded } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { addCommnetTask } from "../../Actions/TaskActions";
-
+import { v4 as uuidv4 } from "uuid";
 import { dateNow } from "../../Services/Date";
 
 const Comments = () => {
@@ -11,7 +11,6 @@ const Comments = () => {
   const [commentText, setCommentText] = useState("");
   const { theme } = useParams();
   const { comments } = useSelector((state) => state.timetracker.CurrentTask);
-
   const { username, user_picture } = useSelector(
     (state) => state.timetracker.CurrentUser
   );
@@ -59,7 +58,7 @@ const Comments = () => {
       {comments && comments.length !== 0 ? (
         comments.map((item) => {
           return (
-            <div className="comments-card">
+            <div className="comments-card" key={uuidv4()}>
               <div className="comments-card-wrapper">
                 <div className="comments-card-picture">
                   <img src={item.user_picture} alt="user_picture" />

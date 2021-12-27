@@ -1,5 +1,7 @@
 export const AUTHORIZATION = "AUTHORIZATION";
 
+export const CREATE_USER = "CREATE_USER";
+
 export const LOGOUT = "LOGOUT";
 
 export const LOAD_USER_LIST = "LOAD_USER_LIST";

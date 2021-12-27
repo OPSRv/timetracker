@@ -9,12 +9,12 @@ import {
 } from "../Reducers/Types";
 
 import store from "../Reducers/store";
-import ApiService from "../Services/ApiService";
 import api from "../Services/api";
 
 export const getProjects = () => async (dispatch) => {
   dispatch({ type: START_LOADING });
-  const res = await ApiService.getAll("/projects")
+  const res = await api.project
+    .get_projects()
     .then(({ data }) => {
       return data;
     })
@@ -32,15 +32,15 @@ export const getProjects = () => async (dispatch) => {
   });
 };
 
-export const createProject = (project_data) => async (dispatch) => {
-  const res = await ApiService.project_create(project_data)
+export const createProject = (data) => async (dispatch) => {
+  const res = await api.project
+    .create_project(data)
     .then(({ data }) => {
       return data;
     })
     .catch((error) => {
       console.log(error.message, "CREATE_PROJECT ERROR");
     });
-
   return store.dispatch({
     type: CREATE_PROJECT,
     payload: res,
@@ -48,21 +48,22 @@ export const createProject = (project_data) => async (dispatch) => {
 };
 
 export const deleteProject = (name) => async (dispatch) => {
-  await api.project.deleteProject(name);
+  await api.project.delete_project(name);
   return store.dispatch({
     type: DELETE_PROJECT,
     payload: name,
   });
 };
 
-export const getProjectId = (url) => async (dispatch) => {
+export const getProjectDetail = (url) => async (dispatch) => {
   dispatch({ type: START_LOADING });
-  const res = await ApiService.get(url)
+  const res = await api.project
+    .get_project_detail(url)
     .then(({ data }) => {
       return data;
     })
     .catch((error) => {
-      // dispatch({ type: ERROR });
+      dispatch({ type: ERROR });
       console.log(error.message, "LOAD_PROJECT_ID ERROR");
     })
     .finally(() => {

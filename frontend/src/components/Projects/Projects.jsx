@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GiUnstableProjectile } from "react-icons/gi";
+import { Link } from "react-router-dom";
+
 import { FaPlusSquare } from "react-icons/fa";
-import { MdSentimentDissatisfied } from "react-icons/md";
-import "../../assets/css/projects.scss";
+
 import { Loading } from "../Loading/Loading";
+import { ProjectList } from "./ProjectList";
+
 import { getProjects } from "../../Actions/ProjectActions";
+
+import "../../assets/css/projects.scss";
 
 const Projects = () => {
   const dispatch = useDispatch();
@@ -24,32 +27,15 @@ const Projects = () => {
 
   useEffect(() => {
     getProjectsCall();
-  }, [dispatch]);
+  }, [dispatch, getProjectsCall]);
+
   return (
     <>
       {isloading ? (
         <Loading />
       ) : (
         <div className="projects-container">
-          <div className="projects-wrapper">
-            {!!projectList && projectList && projectList.length !== 0 ? (
-              projectList.map((item) => {
-                return (
-                  <Link to={`${item.name}`} key={item.id}>
-                    <div className="project-card">
-                      <GiUnstableProjectile />
-                      <p className="project-name">{item.name}</p>
-                    </div>
-                  </Link>
-                );
-              })
-            ) : (
-              <span className="no-project">
-                You are not assigned to any of the projects ...
-                <MdSentimentDissatisfied />
-              </span>
-            )}
-          </div>
+          <ProjectList projectList={projectList} />
           {is_superuser && !!is_superuser ? (
             <Link to="/project-create">
               <button className="btn-blue">

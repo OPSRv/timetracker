@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 import { MdOutlineDelete } from "react-icons/md";
 import { deleteProject } from "../../Actions/ProjectActions";
 
-const ProjectDelete = ({ projectId }) => {
+const ProjectDelete = ({ project }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { name } = projectId;
+  const { name } = project;
 
   const deleteProjectId = () => {
     dispatch(deleteProject(name));

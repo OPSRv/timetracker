@@ -1,5 +1,6 @@
 import {
   AUTHORIZATION,
+  CREATE_USER,
   LOAD_CURRENT_USER,
   LOGOUT,
   START_LOADING,
@@ -8,12 +9,10 @@ import {
 } from "../Reducers/Types";
 
 import store from "../Reducers/store";
-import ApiService from "../Services/ApiService";
 import api from "../Services/api";
 import Cookies from "js-cookie";
 
 export const getAuth = (data) => async (dispatch) => {
-  console.log(data);
   const result = await api.auth
     .authorization(data)
     .then((res) => {
@@ -37,7 +36,7 @@ export const getAuth = (data) => async (dispatch) => {
 
 export const getUser = () => async (dispatch) => {
   const result = await api.auth
-    .getUser()
+    .get_user()
     .then(({ data }) => {
       if (data) {
         Cookies.set("isAuthenticated", true);
@@ -58,8 +57,25 @@ export const getUser = () => async (dispatch) => {
   });
 };
 
+export const createUser = (data) => async (dispatch) => {
+  const result = await api.user
+    .create_account(data)
+    .then(({ data }) => {
+      return data;
+    })
+    .catch((error) => {
+      dispatch({ type: ERROR });
+      console.log(error.message, "LOAD_USER_ID ERROR");
+    });
+  return store.dispatch({
+    type: CREATE_USER,
+    payload: result,
+  });
+};
+
 export const outLogin = () => async (dispatch) => {
   Cookies.remove("auth_token");
+  Cookies.remove("isAuthenticated");
   return store.dispatch({
     type: LOGOUT,
     payload: "",

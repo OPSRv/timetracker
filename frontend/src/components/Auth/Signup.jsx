@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import ApiService from "../../Services/ApiService";
+import { useDispatch } from "react-redux";
+import { createUser } from "../../Actions/AuthActions";
 
 const Signup = () => {
+  const dispatch = useDispatch();
+
   const [username, setUsername] = useState("");
   const [position, setPosition] = useState("");
   const [birth_date, setBirthdate] = useState("");
@@ -13,7 +16,7 @@ const Signup = () => {
 
   const onSendDataUs = (event) => {
     event.preventDefault();
-    let createAccount = {
+    let newUserData = {
       username: username,
       position: position,
       email: email,
@@ -21,13 +24,7 @@ const Signup = () => {
       password: password,
       passwordConf: passwordConf,
     };
-    ApiService.createAccount(createAccount)
-      .then((res) => {
-        console.log(res, "res - createAccount");
-      })
-      .catch((err) => {
-        console.log(err, "CreateAccount ERR ApiService");
-      });
+    dispatch(createUser(newUserData));
     navigate("/login");
   };
 
