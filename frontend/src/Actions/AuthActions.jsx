@@ -1,6 +1,5 @@
 import {
   AUTHORIZATION,
-  CREATE_USER,
   LOAD_CURRENT_USER,
   LOGOUT,
   START_LOADING,
@@ -58,19 +57,14 @@ export const getUser = () => async (dispatch) => {
 };
 
 export const createUser = (data) => async (dispatch) => {
-  const result = await api.user
+  console.log(data);
+  await api.auth
     .create_account(data)
-    .then(({ data }) => {
-      return data;
-    })
+    .then(({ data }) => {})
     .catch((error) => {
       dispatch({ type: ERROR });
-      console.log(error.message, "LOAD_USER_ID ERROR");
+      console.log(error.message, "CREATE_USER ERROR");
     });
-  return store.dispatch({
-    type: CREATE_USER,
-    payload: result,
-  });
 };
 
 export const outLogin = () => async (dispatch) => {

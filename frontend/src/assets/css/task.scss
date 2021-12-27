@@ -53,6 +53,13 @@
     #description {
       min-height: 70px;
     }
+    .date {
+      margin: 0;
+      padding: 0;
+    }
+    input {
+      padding: 0;
+    }
     .select {
       margin: 10px;
       padding: 10px;
@@ -74,6 +81,7 @@
     }
 
     .input-effect {
+      padding: 0;
       &:focus {
         background-color: rgba(5, 5, 5, 0.267);
         color: rgb(255, 255, 255);

@@ -24,6 +24,7 @@ const Signup = () => {
       password: password,
       passwordConf: passwordConf,
     };
+    console.log(newUserData);
     dispatch(createUser(newUserData));
     navigate("/login");
   };

@@ -50,17 +50,19 @@ const ProjectDetail = () => {
             <div className="project-item">
               <h3>Performers:</h3>
               {project && project.length !== 0 ? (
-                project.performers.map((item) => {
-                  return (
-                    <Link to={`/users/${item.username}`} key={item.id}>
-                      <ProjectPerformers
-                        user_picture={item.user_picture}
-                        username={item.username}
-                        position={item.position}
-                      />
-                    </Link>
-                  );
-                })
+                project.performers.map(
+                  ({ username, id, user_picture, position }) => {
+                    return (
+                      <Link to={`/users/${username}`} key={id}>
+                        <ProjectPerformers
+                          user_picture={user_picture}
+                          username={username}
+                          position={position}
+                        />
+                      </Link>
+                    );
+                  }
+                )
               ) : (
                 <span></span>
               )}
