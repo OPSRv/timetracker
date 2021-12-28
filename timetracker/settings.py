@@ -2,13 +2,18 @@
 from pathlib import Path
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-d=&b*(#^u(*164bh6y(k(+g4g#cdyv*w!fc=y76$yj6exs5++&'
 
-DEBUG = True
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -27,6 +32,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'backend.apps.BackendConfig',
+    'start'
 ]
 
 MIDDLEWARE = [
@@ -60,30 +66,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'timetracker.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'test-db',
-        'USER': os.getenv('USER_DB'),
-        'PASSWORD': os.getenv('PASSWORD_DB'),
-        'HOST': os.getenv('HOST_DB'),
-        'PORT': '5432',
-    }
-}
-
 AUTH_PASSWORD_VALIDATORS = [
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    # },
+
 ]
 
 REST_FRAMEWORK = {
@@ -128,8 +112,8 @@ USE_TZ = True
 
 DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M']
 
-STATIC_URL = '/static/'
-STATIC_ROOT = Path(BASE_DIR, 'static')
+# STATIC_URL = '/static/'
+# STATIC_ROOT = Path(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -142,3 +126,9 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    from .prod_settings import *
