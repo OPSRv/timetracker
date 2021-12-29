@@ -42,7 +42,6 @@ export const getTask = (theme) => async (dispatch) => {
 };
 
 export const createTask = (task_data) => async (dispatch) => {
-  console.log(task_data);
   const res = await api.task
     .task_create(task_data)
     .then((data) => {

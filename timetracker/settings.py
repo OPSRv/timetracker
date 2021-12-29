@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'backend.apps.BackendConfig',
-    'start'
 ]
 
 MIDDLEWARE = [
@@ -82,14 +81,15 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "https://example.com",
-    "https://sub.example.com",
-    "http://localhost:8000",
-    'http://127.0.0.1:8000',
-    "http://127.0.0.1:3000",
-    "http://localhost:3000",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://example.com",
+#     "https://sub.example.com",
+#     "http://localhost:8000",
+#     'http://127.0.0.1:8000',
+#     "http://127.0.0.1:3000",
+#     "http://localhost:3000",
+# ]
+CORS_ORIGIN_ALLOW_ALL = True
 DJOSER = {
     'SERIALIZERS': {
         'user': 'backend.serializers.UserSerializer',

@@ -11,15 +11,15 @@ const ProjectDetail = () => {
   const dispatch = useDispatch();
 
   const project = useSelector((state) => state.timetracker.ProjectDetail);
-  const url = useLocation();
+  const { pathname } = useLocation();
 
   const { is_superuser } = useSelector(
     (state) => state.timetracker.CurrentUser
   );
 
   const getProjectIdCall = useCallback(
-    () => dispatch(getProjectDetail(url.pathname)),
-    [dispatch, url]
+    () => dispatch(getProjectDetail(pathname)),
+    [dispatch, pathname]
   );
 
   useEffect(() => {
