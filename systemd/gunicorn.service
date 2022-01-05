@@ -1,0 +1,13 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=www
+Group=www-data
+WorkingDirectory=/home/www/timetracker-deploy/src
+ExecStart=/home/www/timetracker-deploy/env/bin/gunicorn --workers 3 --bind unix:/home/www/timetracker-deploy/gunicorn/gunicorn.sock timetracker.wsgi:application --access-logfile /home/www/>
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
